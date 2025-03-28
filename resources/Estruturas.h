@@ -3,6 +3,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <math.h>
+#include <stdbool.h>
 
 typedef struct Antena {
     char frequencia; // Frequência da antena

@@ -9,6 +9,9 @@
           "-g",
           "src/main.c",
           "src/Funções.c",
+          "src/Binario.c",
+          "src/Antenas.c",
+          "src/Nefasto.c",
           "-Iresources",
           "-o",
           "bin/main"
