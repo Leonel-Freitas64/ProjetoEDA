@@ -2,33 +2,34 @@
 #define FUNCOES_H
 
 #include "Estruturas.h"
-#include <stdbool.h>
 
-// Geral
-void mostrarmenu();
-void processarOpcao(int opcao, Antena** lista, Nefasto** efeitos, int* linha, int* coluna);
-void processarOpcaoSecundaria(int opcao, Antena** lista, Nefasto** efeitos, int linha, int coluna);
+// Menus
+void mostrarMenuPrincipal();
+void mostrarMenuSecundario();
 
-// Antenas
+// Processamento de opções
+void processarOpcaoSecundaria(int opcao, Antena** lista, Nefasto** efeitos, int linha, int coluna, bool* primeiraVez);
+void processarOpcao(int opcao, Antena** lista, Nefasto** efeitos, int* linha, int* coluna, bool* primeiraVez);
+
+// Manipulação de antenas
 bool inserirAntena(Antena** head, char freq, int x, int y);
-Antena* lerAntenasDoFicheiro(const char* nomeFicheiro, int* linha, int* coluna);
-void listarAntenas(Antena* lista);
-void imprimirMatrizAntenas(Antena* lista, Nefasto* efeitos, int colunas, int linhas, int modo);
 bool eliminarAntena(Antena** head, int x, int y);
-//void recolherDadosAntena(char* freq, int* x, int* y, int linha, int coluna);
+Antena* lerAntenasDoFicheiro(const char* nomeFicheiro,Antena **lista, int* linha, int* coluna);
+void listarAntenas(Antena* lista);
 
-// Arquivos
-void salvarEmBinario(Antena *lista, Nefasto *efeitos, int largura, int altura, const char *nomeArquivo);
-void lerDeBinario(Antena **lista, Nefasto **efeitos, int *largura, int *altura, const char *nomeArquivo);
-void redimensionarMatriz(Antena **lista, Nefasto **efeitos, int *linhas, int *colunas, int novasLinhas, int novasColunas);
-
-// Efeitos Nefastos
+// Manipulação de efeitos nefastos
 Nefasto* calcularEfeitoNefasto(Antena* lista, int linha, int coluna);
-Nefasto* criarEfeitoNefasto(Antena* antena1, Antena* antena2 ,int x1, int y1, int x2, int y2);
-bool inserirNefasto(Nefasto **head, Antena *antena, Antena *antena2, int x1, int y1, int x2, int y2);
-void listarEfeitosNefastos(Nefasto *listaNefastos);
+Nefasto* verificaEfeitoNefasto(Antena* lista, Nefasto** efeitos, int linha, int coluna);
+void listarEfeitosNefastos(Nefasto* listaNefastos);
+void liberarEfeitosNefastos(Nefasto* lista);
 
-// Função para recolher dados da antena
-//void recolherDadosAntena(char* freq, int* x, int* y, int linha, int coluna);
+// Manipulação de arquivos
+void salvarEmBinario(Antena* lista, Nefasto* efeitos, int largura, int altura, const char* nomeArquivo);
+void lerDeBinario(Antena** lista, Nefasto** efeitos, int* largura, int* altura, const char* nomeArquivo);
 
-#endif // FUNCOES_H
+// Outros
+void recolherDadosAntena(char* freq, int* x, int* y, int linha, int coluna);
+void imprimirMatrizAntenas(Antena* lista, Nefasto* efeitos, int colunas, int linhas, int modo);
+Antena* redimensionarMatriz(Antena** lista, Nefasto** efeitos, int* linhas, int* colunas, int novasLinhas, int novasColunas);
+
+#endif

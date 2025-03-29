@@ -1,29 +1,43 @@
+/**
+ * @file main.c
+ * @author Leonel Freitas (a31520@alunos.ipca.pt)
+ * @brief 
+ * @version 1.1
+ * @date 29-03-2025
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include "Funções.h"
 
+/**
+ * @brief Função principal do programa.
+ * 
+ * @return int 
+ */
+int main()
+{
+    Antena* lista = NULL;
+    Nefasto* efeitos = NULL;
+    int linha = 0, coluna = 0;
+    bool primeiraVez = true; 
 
-void liberarListaAntenas(Antena *lista) {
-    while (lista) {
-        Antena *temp = lista;
-        lista = lista->next;
-        free(temp); // Removed reference to temp->efeitos
-    }
-}
-
-int main() {
-    int opcao, linha, coluna;
-    Antena *lista = NULL;
-    Nefasto *efeitos = NULL;
-
-    while (1) {
+    int opcao;
+    do
+    {
         mostrarMenuPrincipal();
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
-        processarOpcao(opcao, &lista, &efeitos, &linha, &coluna);
-    }
+        processarOpcao(opcao, &lista, &efeitos, &linha, &coluna, &primeiraVez);
+    } while (opcao != 3);
 
-    liberarListaAntenas(lista);
-    liberarEfeitosNefastos(efeitos);
+    // Libera memória ao sair
+    if (lista)
+        liberarAntenas(lista);
+    if (efeitos)
+        liberarEfeitosNefastos(&efeitos);
+
     return 0;
 }
