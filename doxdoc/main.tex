@@ -1,0 +1,254 @@
+\documentclass[a4paper,12pt]{report}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{pgfplots}
+\usepackage{pgf-pie}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage[nottoc]{tocbibind}
+\usepackage[backend=biber, style=alphabetic]{biblatex}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+\addbibresource{bibliografia.bib}
+
+\pgfplotsset{compat=1.18}
+
+
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    frame=single,
+    breaklines=true,
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray},
+    identifierstyle=\color{black},
+    backgroundcolor=\color{white},
+}
+
+\lstdefinestyle{CStyle}{
+    language=C,
+    basicstyle=\ttfamily\small,
+    frame=single,
+    breaklines=true,
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    stringstyle=\color{green!50!black},
+    commentstyle=\color{gray},
+    identifierstyle=\color{black},
+    backgroundcolor=\color{white},
+}
+
+\title{\textbf{Projeto EDA - Relatório Etapa 1}}
+\author{
+    Licenciatura em Engenharia de Sistemas Informáticos \\ 
+    Laboratórios de Informática 2024-25 \\ Leonel Freitas (31520)}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\chapter{Introdução}
+Este relatório apresenta o trabalho desenvolvido no âmbito do Projeto EDA, cujo objetivo principal foi criar uma aplicação em linguagem C para a gestão de antenas numa matriz, cálculo de efeitos nefastos entre antenas da mesma frequência e funcionalidades adicionais como gravar dados da aplicação em ficheiro binario para ser acessível mais tarde.
+
+\section{Objetivos}
+\begin{itemize}
+    \item Representar antenas numa matriz com base em ficheiros de entrada.
+    \item Detetar interferências (efeitos nefastos) entre antenas próximas com a mesma frequência.
+    \item Poder adicionar e/ou remover antenas no programa.
+    \item Imprimir a matriz com diferentes modos de visualização.
+    \item Garantir a integridade dos dados e tratar sobreposições.
+\end{itemize}
+
+\chapter{Estrutura do Sistema}
+O projeto foi organizado numa estrutura modular, com ficheiros separados para cada funcionalidade principal. A hierarquia do projeto é a seguinte:
+
+\begin{verbatim}
+ProjetoEDA/
++-- resources/
+|   +--Estruturas.h
+|   +--Funções.txt
++-- src/
+|   +-- Antenas.c
+|   +-- Nefasto.c
+|   +-- Funções.c
+|   +-- Binario.c
+|   +-- main.c
++-- doxdoc/
+|   +-- mainEDA.tex
+|   +-- Doxyfile
++-- doc/
+|   +-- main.pdf
+\end{verbatim}
+
+\newpage
+
+\section{Descrição dos Ficheiros}
+\begin{itemize}
+    \item \texttt{Antenas.c}: Implementação das funções relacionadas à manipulação de antenas.
+    \item \texttt{Nefasto.c}: Implementação das funções para cálculo de efeitos nefastos.
+    \item \texttt{Funções.c}: Funções principais do programa, incluindo menus e manipulação de dados.
+    \item \texttt{Binario.c}: Funções para leitura e escrita de ficheiros binários.
+    \item \texttt{main.c}: Ficheiro principal que coordena a execução do programa.
+    \item \texttt{mainEDA.tex}: Relatório da Etapa 1 do projeto.
+    \item \texttt{Doxyfile}: Configuração do Doxygen para geração de documentação.
+\end{itemize}
+
+\chapter{Estruturas de Dados}
+\section{Estrutura Antena}
+\begin{lstlisting}[style=CStyle]
+typedef struct Antena {
+    char frequencia;
+    int x, y;
+    struct Antena *next;
+} Antena;
+\end{lstlisting}
+Esta estrutura representa uma antena com a sua frequência e coordenadas na matriz. Está ligada a outras antenas através de uma lista ligada.
+
+\section{Estrutura Nefasto}
+\begin{lstlisting}[style=CStyle]
+typedef struct Nefasto {
+    int x1, y1, x2, y2;
+    struct Antena* antena1;
+    struct Antena* antena2; 
+    struct Nefasto *next;
+} Nefasto;
+\end{lstlisting}
+Cada efeito nefasto é registado com as duas posições onde ele ocorre, a duas casas de distância de cada antena envolvida e as respetivas antentas.
+\section{Diagrama das Estruturas do Programa}
+
+\begin{figure}[!ht]
+    \centering
+    \resizebox{1\textwidth}{!}{%
+    \begin{tikzpicture}
+    \tikzstyle{every node}=[font=\LARGE]
+    \draw [ line width=1pt ] (11.75,11.5) rectangle (20,17);
+    \node [font=\LARGE] at (15.5,16.25) {   Struct Antena};
+    \node [font=\LARGE] at (15.75,15) {char frequencia};
+    \node [font=\LARGE] at (15.75,14) {int x, y};
+    \draw [line width=1pt, ->, >=Stealth] (20,12.25) .. controls (30.5,20.5) and (22.25,20.75) .. (16,17) ;
+    \draw [line width=1pt, ->, >=Stealth] (11.75,3.75) .. controls (6,6.25) and (1.5,9) .. (11.75,14.75) ;
+    \draw [ line width=1pt ] (11.75,6.25) rectangle (20.5,1.25);
+    \node [font=\LARGE] at (16,5.5) {Struct Nefasto};
+    \node [font=\LARGE] at (16,4.75) {int x1, x2, y1, y2};
+    \node [font=\LARGE] at (16,3.5) {struct Antena* a1};
+    \node [font=\LARGE] at (16,2.75) {struct Antena* a2};
+    \node [font=\LARGE] at (16,2) {struct Nefasto* next};
+    \node [font=\LARGE] at (16.25,12.25) {struct Antena* next};
+    \draw [line width=1pt, ->, >=Stealth] (20.5,1.75) .. controls (31,10) and (22.75,10.25) .. (16.5,6.5) ;
+    \end{tikzpicture}
+    }%
+    
+    \label{fig:my_label}
+    \end{figure}
+
+\chapter{Funcionalidades do Programa}
+\section{Leitura de Antenas de Ficheiro}
+\begin{lstlisting}[style=CStyle]
+Antena *lerAntenasDoFicheiro(const char *nomeFicheiro, int *linha, int *coluna);
+\end{lstlisting}
+Esta função lê uma matriz de um ficheiro e regista as posições de todas as antenas. Ignora células vazias e contabiliza corretamente linhas e colunas úteis.
+
+\section{Cálculo de Efeitos Nefastos}
+\begin{lstlisting}[style=CStyle]
+Nefasto* calcularEfeitoNefasto(Antena *lista, int linha, int coluna);
+\end{lstlisting}
+Esta função percorre todas as antenas da mesma frequência e, se a distância for menor ou igual a 3, regista os efeitos nefastos a duas células de distância de cada antena, respeitando os limites da matriz.
+\section{Impressão Visual da Matriz}
+\begin{lstlisting}[style=CStyle]
+void imprimirMatrizAntenas(Antena *lista, Nefasto *efeitos, int colunas, int linhas, int modo);
+\end{lstlisting}
+A matriz pode ser visualizada em três modos:
+\begin{itemize}
+    \item Modo 1: apenas antenas.
+    \item Modo 2: apenas efeitos nefastos.
+    \item Modo 3: ambos.
+\end{itemize}
+
+\section{Não Implementado : Redimensionamento e Deslocamento}
+\begin{lstlisting}[style=CStyle]
+Antena* redimensionarMatriz(int *linhas, int *colunas, Antena *lista);
+\end{lstlisting}
+Esta funcionalidade permite:
+\begin{itemize}
+    \item Aumentar ou diminuir dimensões da matriz.
+    \item Remover antenas fora dos novos limites.
+    \item Deslocar todas as antenas para a direita/baixo, se desejado.
+\end{itemize}
+Apesar de não implementada, a função foi desenhada e documentada para futura implementação.
+
+\section{Adicionar Antena}
+\begin{lstlisting}[style=CStyle]
+void adicionarAntena(Antena **lista, char frequencia, int x, int y);
+\end{lstlisting}
+Esta função adiciona uma nova antena à lista ligada, verificando se as coordenadas são válidas e se já existe uma antena na mesma posição.
+
+\section{Liberar Antena}
+\begin{lstlisting}[style=CStyle]
+void liberarAntena(Antena **lista, int x, int y);
+\end{lstlisting}
+Remove uma antena da lista ligada com base nas coordenadas fornecidas. Caso a antena não exista, a função retorna sem alterações.
+
+\section{Salvar e Ler Ficheiro Binário}
+\begin{lstlisting}[style=CStyle]
+void salvarBinario(Antena *lista, const char *nomeFicheiro);
+Antena* lerBinario(const char *nomeFicheiro);
+\end{lstlisting}
+Estas funções permitem salvar a lista de antenas em um ficheiro binário e carregá-la posteriormente. O formato binário garante eficiência e integridade dos dados.
+
+\section{Menus Principal e Secundário}
+\subsection{Menu Principal}
+O menu principal apresenta opções para:
+\begin{itemize}
+    \item Adicionar, remover ou listar antenas.
+    \item Calcular e listar efeitos nefastos.
+    \item Salvar ou carregar dados de ficheiros.
+    \item Alterar dimensões da matriz.
+\end{itemize}
+
+\subsection{Menu Secundário}
+O menu secundário é exibido após a seleção de uma antena e permite:
+\begin{itemize}
+    \item Alterar a frequência da antena.
+    \item Mover a antena para novas coordenadas.
+    \item Remover a antena selecionada.
+\end{itemize}
+
+\section{Tratamento de Erros}
+O programa inclui verificações para:
+\begin{itemize}
+    \item Antenas fora dos limites da matriz.
+    \item Linhas vazias ou mal formatadas nos ficheiros de entrada.
+    \item Coordenadas inválidas ao adicionar ou mover antenas.
+    \end{itemize}
+    Mensagens de erro claras são exibidas ao utilizador, garantindo uma experiência robusta.
+    
+    \chapter{Testes Realizados}
+    Foram realizados vários testes com ficheiros contendo antenas em diferentes posições, com:
+    \begin{itemize}
+        \item Frequências iguais e distâncias menores ou maiores que 3.
+        \item Efeitos diagonais, horizontais e verticais.
+        \item Casos de sobreposição entre antena e efeito.
+        \item Redimensionamentos e deslocamentos forçados.
+    \end{itemize}
+    
+    \chapter{Conclusão}
+    O projeto permitiu aplicar conhecimentos fundamentais de estruturas de dados, manipulação de ficheiros, listas ligadas e matrizes. A utilização de testes e visualização textual da matriz ajudou na validação dos resultados. O programa é modular, eficiente e extensível, permitindo futuras melhorias e adaptações.
+    
+    \end{document}

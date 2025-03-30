@@ -1,0 +1,179 @@
+\doxysection{/home/leo/\+Secretária/\+Projeto\+EDA-\/main./\+Projeto\+EDA-\/main/\+Projeto\+EDA/src/\+Nefasto.c File Reference}
+\hypertarget{Nefasto_8c}{}\label{Nefasto_8c}\index{/home/leo/Secretária/ProjetoEDA-\/main./ProjetoEDA-\/main/ProjetoEDA/src/Nefasto.c@{/home/leo/Secretária/ProjetoEDA-\/main./ProjetoEDA-\/main/ProjetoEDA/src/Nefasto.c}}
+
+
+Implementação das funções relacionadas aos efeitos nefastos entre antenas.  
+
+
+{\ttfamily \#include "{}../resources/\+Estruturas.\+h"{}}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+Include dependency graph for Nefasto.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Nefasto_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Nefasto \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{Nefasto_8c_ab5cf95b455bd4fc2aa164a8e5005a2fe}{criar\+Efeito\+Nefasto}} (Antena \texorpdfstring{$\ast$}{*}a1, Antena \texorpdfstring{$\ast$}{*}a2, int x1, int y1, int x2, int y2)
+\begin{DoxyCompactList}\small\item\em Cria um novo efeito nefasto. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Nefasto_8c_afb8fd83b7b274b5dac6cd3032248bd5f}{inserir\+Nefasto}} (Nefasto \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}lista\+Nefastos, Antena \texorpdfstring{$\ast$}{*}antena1, Antena \texorpdfstring{$\ast$}{*}antena2, int x1, int y1, int x2, int y2)
+\begin{DoxyCompactList}\small\item\em Insere um novo efeito nefasto na lista. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Nefasto_8c_ac08dc830559f8490e5fc6d7e439a2797}{liberar\+Efeitos\+Nefastos}} (Nefasto \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}lista\+Nefastos)
+\begin{DoxyCompactList}\small\item\em Libera a memória da lista de efeitos nefastos. \end{DoxyCompactList}\item 
+Nefasto \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{Nefasto_8c_af988a0310c5fca5075b8e92362ee6b6f}{calcular\+Efeito\+Nefasto}} (Antena \texorpdfstring{$\ast$}{*}lista, int linha, int coluna)
+\begin{DoxyCompactList}\small\item\em Calcula os efeitos nefastos com base na lista de antenas. \end{DoxyCompactList}\item 
+Nefasto \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{Nefasto_8c_a8b35f6d095d79e39b5536e36193a9ceb}{verifica\+Efeito\+Nefasto}} (Antena \texorpdfstring{$\ast$}{*}lista\+Antenas, Nefasto \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}lista\+Nefastos, int linha, int coluna)
+\begin{DoxyCompactList}\small\item\em Verifica e recalcula os efeitos nefastos com base na lista de antenas. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Nefasto_8c_a4e1ab25602c32ae5148f428f518d6118}{listar\+Efeitos\+Nefastos}} (Nefasto \texorpdfstring{$\ast$}{*}lista\+Nefastos)
+\begin{DoxyCompactList}\small\item\em Lista todos os efeitos nefastos registrados. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementação das funções relacionadas aos efeitos nefastos entre antenas. 
+
+\begin{DoxyVersion}{Version}
+1.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+29-\/03-\/2025 
+\end{DoxyDate}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{Nefasto_8c_af988a0310c5fca5075b8e92362ee6b6f}\label{Nefasto_8c_af988a0310c5fca5075b8e92362ee6b6f} 
+\index{Nefasto.c@{Nefasto.c}!calcularEfeitoNefasto@{calcularEfeitoNefasto}}
+\index{calcularEfeitoNefasto@{calcularEfeitoNefasto}!Nefasto.c@{Nefasto.c}}
+\doxysubsubsection{\texorpdfstring{calcularEfeitoNefasto()}{calcularEfeitoNefasto()}}
+{\footnotesize\ttfamily Nefasto \texorpdfstring{$\ast$}{*} calcular\+Efeito\+Nefasto (\begin{DoxyParamCaption}\item[{Antena \texorpdfstring{$\ast$}{*}}]{lista,  }\item[{int}]{linha,  }\item[{int}]{coluna }\end{DoxyParamCaption})}
+
+
+
+Calcula os efeitos nefastos com base na lista de antenas. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lista} & Ponteiro para a lista de antenas. \\
+\hline
+{\em linha} & Número de linhas da matriz. \\
+\hline
+{\em coluna} & Número de colunas da matriz. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Nefasto\texorpdfstring{$\ast$}{*} Ponteiro para a lista de efeitos nefastos calculados. 
+\end{DoxyReturn}
+\Hypertarget{Nefasto_8c_ab5cf95b455bd4fc2aa164a8e5005a2fe}\label{Nefasto_8c_ab5cf95b455bd4fc2aa164a8e5005a2fe} 
+\index{Nefasto.c@{Nefasto.c}!criarEfeitoNefasto@{criarEfeitoNefasto}}
+\index{criarEfeitoNefasto@{criarEfeitoNefasto}!Nefasto.c@{Nefasto.c}}
+\doxysubsubsection{\texorpdfstring{criarEfeitoNefasto()}{criarEfeitoNefasto()}}
+{\footnotesize\ttfamily Nefasto \texorpdfstring{$\ast$}{*} criar\+Efeito\+Nefasto (\begin{DoxyParamCaption}\item[{Antena \texorpdfstring{$\ast$}{*}}]{a1,  }\item[{Antena \texorpdfstring{$\ast$}{*}}]{a2,  }\item[{int}]{x1,  }\item[{int}]{y1,  }\item[{int}]{x2,  }\item[{int}]{y2 }\end{DoxyParamCaption})}
+
+
+
+Cria um novo efeito nefasto. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a1} & Ponteiro para a primeira antena. \\
+\hline
+{\em a2} & Ponteiro para a segunda antena. \\
+\hline
+{\em x1} & Coordenada X inicial do efeito. \\
+\hline
+{\em y1} & Coordenada Y inicial do efeito. \\
+\hline
+{\em x2} & Coordenada X final do efeito. \\
+\hline
+{\em y2} & Coordenada Y final do efeito. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Nefasto\texorpdfstring{$\ast$}{*} Ponteiro para o novo efeito nefasto ou NULL em caso de erro. 
+\end{DoxyReturn}
+\Hypertarget{Nefasto_8c_afb8fd83b7b274b5dac6cd3032248bd5f}\label{Nefasto_8c_afb8fd83b7b274b5dac6cd3032248bd5f} 
+\index{Nefasto.c@{Nefasto.c}!inserirNefasto@{inserirNefasto}}
+\index{inserirNefasto@{inserirNefasto}!Nefasto.c@{Nefasto.c}}
+\doxysubsubsection{\texorpdfstring{inserirNefasto()}{inserirNefasto()}}
+{\footnotesize\ttfamily void inserir\+Nefasto (\begin{DoxyParamCaption}\item[{Nefasto \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{lista\+Nefastos,  }\item[{Antena \texorpdfstring{$\ast$}{*}}]{antena1,  }\item[{Antena \texorpdfstring{$\ast$}{*}}]{antena2,  }\item[{int}]{x1,  }\item[{int}]{y1,  }\item[{int}]{x2,  }\item[{int}]{y2 }\end{DoxyParamCaption})}
+
+
+
+Insere um novo efeito nefasto na lista. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lista\+Nefastos} & Ponteiro para o ponteiro da lista de efeitos nefastos. \\
+\hline
+{\em antena1} & Ponteiro para a primeira antena. \\
+\hline
+{\em antena2} & Ponteiro para a segunda antena. \\
+\hline
+{\em x1} & Coordenada X inicial do efeito. \\
+\hline
+{\em y1} & Coordenada Y inicial do efeito. \\
+\hline
+{\em x2} & Coordenada X final do efeito. \\
+\hline
+{\em y2} & Coordenada Y final do efeito. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{Nefasto_8c_ac08dc830559f8490e5fc6d7e439a2797}\label{Nefasto_8c_ac08dc830559f8490e5fc6d7e439a2797} 
+\index{Nefasto.c@{Nefasto.c}!liberarEfeitosNefastos@{liberarEfeitosNefastos}}
+\index{liberarEfeitosNefastos@{liberarEfeitosNefastos}!Nefasto.c@{Nefasto.c}}
+\doxysubsubsection{\texorpdfstring{liberarEfeitosNefastos()}{liberarEfeitosNefastos()}}
+{\footnotesize\ttfamily void liberar\+Efeitos\+Nefastos (\begin{DoxyParamCaption}\item[{Nefasto \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{lista\+Nefastos }\end{DoxyParamCaption})}
+
+
+
+Libera a memória da lista de efeitos nefastos. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lista\+Nefastos} & Ponteiro para o ponteiro da lista de efeitos nefastos. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{Nefasto_8c_a4e1ab25602c32ae5148f428f518d6118}\label{Nefasto_8c_a4e1ab25602c32ae5148f428f518d6118} 
+\index{Nefasto.c@{Nefasto.c}!listarEfeitosNefastos@{listarEfeitosNefastos}}
+\index{listarEfeitosNefastos@{listarEfeitosNefastos}!Nefasto.c@{Nefasto.c}}
+\doxysubsubsection{\texorpdfstring{listarEfeitosNefastos()}{listarEfeitosNefastos()}}
+{\footnotesize\ttfamily void listar\+Efeitos\+Nefastos (\begin{DoxyParamCaption}\item[{Nefasto \texorpdfstring{$\ast$}{*}}]{lista\+Nefastos }\end{DoxyParamCaption})}
+
+
+
+Lista todos os efeitos nefastos registrados. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lista\+Nefastos} & Ponteiro para a lista de efeitos nefastos. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{Nefasto_8c_a8b35f6d095d79e39b5536e36193a9ceb}\label{Nefasto_8c_a8b35f6d095d79e39b5536e36193a9ceb} 
+\index{Nefasto.c@{Nefasto.c}!verificaEfeitoNefasto@{verificaEfeitoNefasto}}
+\index{verificaEfeitoNefasto@{verificaEfeitoNefasto}!Nefasto.c@{Nefasto.c}}
+\doxysubsubsection{\texorpdfstring{verificaEfeitoNefasto()}{verificaEfeitoNefasto()}}
+{\footnotesize\ttfamily Nefasto \texorpdfstring{$\ast$}{*} verifica\+Efeito\+Nefasto (\begin{DoxyParamCaption}\item[{Antena \texorpdfstring{$\ast$}{*}}]{lista\+Antenas,  }\item[{Nefasto \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{lista\+Nefastos,  }\item[{int}]{linha,  }\item[{int}]{coluna }\end{DoxyParamCaption})}
+
+
+
+Verifica e recalcula os efeitos nefastos com base na lista de antenas. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lista\+Antenas} & Ponteiro para a lista de antenas. \\
+\hline
+{\em lista\+Nefastos} & Ponteiro para o ponteiro da lista de efeitos nefastos. \\
+\hline
+{\em linha} & Número de linhas da matriz. \\
+\hline
+{\em coluna} & Número de colunas da matriz. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Nefasto\texorpdfstring{$\ast$}{*} Ponteiro para a lista de efeitos nefastos recalculados. 
+\end{DoxyReturn}

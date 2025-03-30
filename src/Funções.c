@@ -14,26 +14,36 @@
 
 /**
  * @brief Limpa a tela do terminal.
+ * 
+ * Esta função utiliza comandos do sistema operacional para limpar a tela do terminal.
+ * No Windows, o comando "cls" é usado, enquanto no Unix/Linux/MacOS, o comando "clear" é utilizado.
+ * O operador "||" garante que o comando correto seja executado dependendo do sistema.
  */
 void limpartela()
 {
-    // Comando para limpar a tela, compatível com Windows e Unix
     system("cls||clear");
 }
 
 /**
  * @brief Mostra o menu principal do programa.
+ * 
+ * Este menu apresenta as opções principais disponíveis para o usuário.
+ * Ele é exibido no início do programa e após o retorno do menu secundário.
  */
 void mostrarMenuPrincipal()
 {
     printf("Menu Principal:\n");
-    printf("1. Ler arquivo binário\n");
-    printf("2. Ler matriz\n");
-    printf("3. Sair\n");
+    printf("1. Ler arquivo binário\n"); // Opção para carregar dados de um arquivo binário.
+    printf("2. Ler matriz\n");          // Opção para carregar dados de um arquivo de texto.
+    printf("3. Sair\n");                // Opção para encerrar o programa.
 }
 
 /**
  * @brief Mostra o menu secundário do programa.
+ * 
+ * Este menu é exibido após o carregamento dos dados e permite ao usuário
+ * realizar operações específicas, como adicionar ou remover antenas, verificar
+ * efeitos nefastos, e redimensionar a matriz.
  */
 void mostrarMenuSecundario()
 {
@@ -41,13 +51,16 @@ void mostrarMenuSecundario()
     printf("1. Adicionar antena\n");
     printf("2. Eliminar antena\n");
     printf("3. Verificar Efeitos Nefasto\n");
-    printf("4. Imprimir Matriz\n");
-    printf("5. Redimensionar a matriz\n\n");
-    printf("6. Voltar ao menu principal\n");
+    printf("4. Imprimir Matriz\n\n");
+    //printf("3. Redimensionar a matriz. POR IMPLEMENTAR\n\n");
+    printf("5. Voltar ao menu principal\n");
 }
 
 /**
  * @brief Processa as opções do menu secundário.
+ * 
+ * Esta função é responsável por executar a ação correspondente à opção escolhida pelo usuário no menu secundário.
+ * Ela manipula a lista de antenas e efeitos nefastos, além de atualizar a matriz e salvar os dados em um arquivo binário.
  * 
  * @param opcao Opção escolhida pelo usuário.
  * @param lista Ponteiro para a lista de antenas.
@@ -58,13 +71,14 @@ void mostrarMenuSecundario()
  */
 void processarOpcaoSecundaria(int opcao, Antena **lista, Nefasto **efeitos, int linha, int coluna, bool *primeiraVez)
 {
-    char freq;
-    int x, y, opcaomatriz;
+    char freq; // Variável para armazenar a frequência da antena.
+    int x, y;  // Variáveis para armazenar as coordenadas da antena.
+    int opcaomatriz; // Variável para armazenar o modo de impressão da matriz.
 
     switch (opcao)
     {
     case 1:
-        // Adiciona uma nova antena
+        // Adiciona uma nova antena à lista.
         recolherDadosAntena(&freq, &x, &y, linha, coluna);
         if (inserirAntena(lista, freq, x, y))
         {
@@ -76,7 +90,7 @@ void processarOpcaoSecundaria(int opcao, Antena **lista, Nefasto **efeitos, int 
         }
         break;
     case 2:
-        // Remove uma antena existente
+        // Remove uma antena existente da lista.
         recolherDadosAntena(&freq, &x, &y, linha, coluna);
         if (eliminarAntena(lista, x, y))
         {
@@ -88,11 +102,11 @@ void processarOpcaoSecundaria(int opcao, Antena **lista, Nefasto **efeitos, int 
         }
         break;
     case 3:
-        // Lista os efeitos nefastos
+        // Lista os efeitos nefastos detectados.
         listarEfeitosNefastos(*efeitos);
         return;
     case 4:
-        // Imprime a matriz com antenas e/ou efeitos
+        // Imprime a matriz com base no modo escolhido pelo usuário.
         printf("Escolha o modo de impressão:\n");
         printf("1. Apenas antenas\n");
         printf("2. Apenas efeitos nefastos\n");
@@ -101,11 +115,11 @@ void processarOpcaoSecundaria(int opcao, Antena **lista, Nefasto **efeitos, int 
         imprimirMatrizAntenas(*lista, *efeitos, coluna, linha, opcaomatriz);
         return;
     case 5:
-        //aumentarMatriz(&linha, &coluna, *lista);
+        // Redimensiona a matriz (temporariamente desativado).
         printf("Função temporariamente desativada.\n");
         break;
     case 6:
-        // Volta ao menu principal
+        // Retorna ao menu principal.
         limpartela();
         return;
     default:
@@ -113,7 +127,7 @@ void processarOpcaoSecundaria(int opcao, Antena **lista, Nefasto **efeitos, int 
         return;
     }
 
-    // Recalcula ou verifica os efeitos nefastos após alterações
+    // Após qualquer alteração, recalcula ou verifica os efeitos nefastos.
     if (*primeiraVez)
     {
         *efeitos = calcularEfeitoNefasto(*lista, linha, coluna);
@@ -124,13 +138,16 @@ void processarOpcaoSecundaria(int opcao, Antena **lista, Nefasto **efeitos, int 
         *efeitos = verificaEfeitoNefasto(*lista, efeitos, linha, coluna);
     }
 
-    // Atualiza a matriz e salva os dados
+    // Atualiza a matriz e salva os dados em um arquivo binário.
     imprimirMatrizAntenas(*lista, *efeitos, coluna, linha, 3);
     salvarEmBinario(*lista, *efeitos, coluna, linha, "../bin/dados.bin");
 }
 
 /**
  * @brief Processa as opções do menu principal.
+ * 
+ * Esta função é responsável por executar a ação correspondente à opção escolhida pelo usuário no menu principal.
+ * Ela coordena o carregamento de dados, a exibição do menu secundário e a saída do programa.
  * 
  * @param opcao Opção escolhida pelo usuário.
  * @param lista Ponteiro para a lista de antenas.
@@ -144,7 +161,7 @@ void processarOpcao(int opcao, Antena **lista, Nefasto **efeitos, int *linha, in
     switch (opcao)
     {
     case 1:
-        // Lê os dados de um arquivo binário
+        // Carrega os dados de um arquivo binário.
         lerDeBinario(lista, efeitos, coluna, linha, "../bin/dados.bin");
         if (!*lista)
         {
@@ -152,7 +169,7 @@ void processarOpcao(int opcao, Antena **lista, Nefasto **efeitos, int *linha, in
         }
         else
         {
-            // Calcula ou verifica os efeitos nefastos
+            // Calcula ou verifica os efeitos nefastos.
             if (*primeiraVez)
             {
                 *efeitos = calcularEfeitoNefasto(*lista, *linha, *coluna);
@@ -164,7 +181,7 @@ void processarOpcao(int opcao, Antena **lista, Nefasto **efeitos, int *linha, in
             }
             imprimirMatrizAntenas(*lista, *efeitos, *coluna, *linha, 3);
 
-            // Mostra o menu secundário
+            // Exibe o menu secundário.
             int opcaoSecundaria;
             do
             {
@@ -176,7 +193,7 @@ void processarOpcao(int opcao, Antena **lista, Nefasto **efeitos, int *linha, in
         }
         break;
     case 2:
-        // Lê os dados de um arquivo de texto
+        // Carrega os dados de um arquivo de texto.
         *lista = lerAntenasDoFicheiro("matriz.txt", lista, linha, coluna);
         if (!*lista)
         {
@@ -184,7 +201,7 @@ void processarOpcao(int opcao, Antena **lista, Nefasto **efeitos, int *linha, in
         }
         else
         {
-            // Calcula ou verifica os efeitos nefastos
+            // Calcula ou verifica os efeitos nefastos.
             if (*primeiraVez)
             {
                 *efeitos = calcularEfeitoNefasto(*lista, *linha, *coluna);
@@ -197,7 +214,7 @@ void processarOpcao(int opcao, Antena **lista, Nefasto **efeitos, int *linha, in
             imprimirMatrizAntenas(*lista, *efeitos, *coluna, *linha, 3);
             salvarEmBinario(*lista, *efeitos, *coluna, *linha, "../bin/dados.bin");
 
-            // Mostra o menu secundário
+            // Exibe o menu secundário.
             int opcaoSecundaria;
             do
             {
@@ -209,7 +226,7 @@ void processarOpcao(int opcao, Antena **lista, Nefasto **efeitos, int *linha, in
         }
         break;
     case 3:
-        // Sai do programa
+        // Encerra o programa.
         printf("Saindo...\n");
         exit(0);
     default:
@@ -221,6 +238,9 @@ void processarOpcao(int opcao, Antena **lista, Nefasto **efeitos, int *linha, in
 /**
  * @brief Executa o menu principal do programa.
  * 
+ * Esta função exibe o menu principal em um loop até que o usuário escolha sair do programa.
+ * Ela chama a função `processarOpcao` para executar as ações correspondentes às opções escolhidas.
+ * 
  * @param lista Ponteiro para a lista de antenas.
  * @param efeitos Ponteiro para a lista de efeitos nefastos.
  * @param linha Ponteiro para o número de linhas da matriz.
@@ -229,15 +249,15 @@ void processarOpcao(int opcao, Antena **lista, Nefasto **efeitos, int *linha, in
  */
 void executarMenu(Antena **lista, Nefasto **efeitos, int *linha, int *coluna, bool *primeraVez)
 {
-    int opcao;
+    int opcao; // Variável para armazenar a opção escolhida pelo usuário.
     do
     {
-        // Mostra o menu principal e processa a opção escolhida
+        // Exibe o menu principal e solicita a escolha do usuário.
         mostrarMenuPrincipal();
         printf("Escolha uma opção: ");
         scanf("%d", &opcao);
         processarOpcao(opcao, lista, efeitos, linha, coluna, primeraVez);
-    } while (opcao != 3);
+    } while (opcao != 3); // Continua até que o usuário escolha sair.
 }
 
 /**

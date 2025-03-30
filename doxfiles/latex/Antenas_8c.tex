@@ -1,0 +1,203 @@
+\doxysection{/home/leo/\+Secretária/\+Projeto\+EDA-\/main./\+Projeto\+EDA-\/main/\+Projeto\+EDA/src/\+Antenas.c File Reference}
+\hypertarget{Antenas_8c}{}\label{Antenas_8c}\index{/home/leo/Secretária/ProjetoEDA-\/main./ProjetoEDA-\/main/ProjetoEDA/src/Antenas.c@{/home/leo/Secretária/ProjetoEDA-\/main./ProjetoEDA-\/main/ProjetoEDA/src/Antenas.c}}
+
+
+Implementação das funções relacionadas à manipulação de antenas.  
+
+
+{\ttfamily \#include "{}../resources/\+Funções.\+h"{}}\newline
+{\ttfamily \#include "{}../resources/\+Estruturas.\+h"{}}\newline
+Include dependency graph for Antenas.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Antenas_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Antena \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{Antenas_8c_a45d602813bfa39b2875ba12549e962c5}{criar\+Antena}} (char freq, int x, int y)
+\begin{DoxyCompactList}\small\item\em Cria uma nova antena. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{Antenas_8c_a31a67adb11bbbd558f1e9c6c2e6c6d03}{inserir\+Antena}} (Antena \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}head, char freq, int x, int y)
+\begin{DoxyCompactList}\small\item\em Insere uma antena na lista. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{Antenas_8c_ad7644bc46c7bdcd0d856eae507f81a81}{eliminar\+Antena}} (Antena \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}head, int x, int y)
+\begin{DoxyCompactList}\small\item\em Remove uma antena da lista. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Antenas_8c_aba2017c66b22e3eb30e64352b846c6ee}{recolher\+Dados\+Antena}} (char \texorpdfstring{$\ast$}{*}freq, int \texorpdfstring{$\ast$}{*}x, int \texorpdfstring{$\ast$}{*}y, int linha, int coluna)
+\begin{DoxyCompactList}\small\item\em Solicita ao usuário os dados de uma antena. \end{DoxyCompactList}\item 
+Antena \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{Antenas_8c_ad43d7ee51973a5a9893ab6b54df3dcbe}{ler\+Antenas\+Do\+Ficheiro}} (const char \texorpdfstring{$\ast$}{*}nome\+Ficheiro, Antena \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}lista, int \texorpdfstring{$\ast$}{*}linha, int \texorpdfstring{$\ast$}{*}coluna)
+\begin{DoxyCompactList}\small\item\em Lê antenas de um arquivo e as insere na lista. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Antenas_8c_ad8e25ea7e05f77d363c12d6f63e7ebde}{listar\+Antenas}} (Antena \texorpdfstring{$\ast$}{*}lista)
+\begin{DoxyCompactList}\small\item\em Imprime a lista de antenas. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Antenas_8c_a64bbc7ae322dd40f788cbe34daf01ae9}{liberar\+Antenas}} (Antena \texorpdfstring{$\ast$}{*}lista)
+\begin{DoxyCompactList}\small\item\em Libera a memória da lista de antenas. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementação das funções relacionadas à manipulação de antenas. 
+
+\begin{DoxyAuthor}{Author}
+Leonel Freitas (\href{mailto:a31520@alunos.ipca.pt}{\texttt{ a31520@alunos.\+ipca.\+pt}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+29-\/03-\/2025
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2025 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{Antenas_8c_a45d602813bfa39b2875ba12549e962c5}\label{Antenas_8c_a45d602813bfa39b2875ba12549e962c5} 
+\index{Antenas.c@{Antenas.c}!criarAntena@{criarAntena}}
+\index{criarAntena@{criarAntena}!Antenas.c@{Antenas.c}}
+\doxysubsubsection{\texorpdfstring{criarAntena()}{criarAntena()}}
+{\footnotesize\ttfamily Antena \texorpdfstring{$\ast$}{*} criar\+Antena (\begin{DoxyParamCaption}\item[{char}]{freq,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Cria uma nova antena. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em freq} & Frequência da antena (A-\/Z, a-\/z, 0-\/9). \\
+\hline
+{\em x} & Coordenada X da antena. \\
+\hline
+{\em y} & Coordenada Y da antena. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Antena\texorpdfstring{$\ast$}{*} Ponteiro para a nova antena ou NULL em caso de erro. 
+\end{DoxyReturn}
+\Hypertarget{Antenas_8c_ad7644bc46c7bdcd0d856eae507f81a81}\label{Antenas_8c_ad7644bc46c7bdcd0d856eae507f81a81} 
+\index{Antenas.c@{Antenas.c}!eliminarAntena@{eliminarAntena}}
+\index{eliminarAntena@{eliminarAntena}!Antenas.c@{Antenas.c}}
+\doxysubsubsection{\texorpdfstring{eliminarAntena()}{eliminarAntena()}}
+{\footnotesize\ttfamily bool eliminar\+Antena (\begin{DoxyParamCaption}\item[{Antena \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{head,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Remove uma antena da lista. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em head} & Ponteiro para o ponteiro da lista de antenas. \\
+\hline
+{\em x} & Coordenada X da antena a ser removida. \\
+\hline
+{\em y} & Coordenada Y da antena a ser removida. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true Se a antena foi removida com sucesso. 
+
+false Se a antena não foi encontrada ou ocorreu um erro. 
+\end{DoxyReturn}
+\Hypertarget{Antenas_8c_a31a67adb11bbbd558f1e9c6c2e6c6d03}\label{Antenas_8c_a31a67adb11bbbd558f1e9c6c2e6c6d03} 
+\index{Antenas.c@{Antenas.c}!inserirAntena@{inserirAntena}}
+\index{inserirAntena@{inserirAntena}!Antenas.c@{Antenas.c}}
+\doxysubsubsection{\texorpdfstring{inserirAntena()}{inserirAntena()}}
+{\footnotesize\ttfamily bool inserir\+Antena (\begin{DoxyParamCaption}\item[{Antena \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{head,  }\item[{char}]{freq,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Insere uma antena na lista. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em head} & Ponteiro para o ponteiro da lista de antenas. \\
+\hline
+{\em freq} & Frequência da antena. \\
+\hline
+{\em x} & Coordenada X da antena. \\
+\hline
+{\em y} & Coordenada Y da antena. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true Se a antena foi inserida com sucesso. 
+
+false Se já existe uma antena na mesma posição ou ocorreu um erro. 
+\end{DoxyReturn}
+\Hypertarget{Antenas_8c_ad43d7ee51973a5a9893ab6b54df3dcbe}\label{Antenas_8c_ad43d7ee51973a5a9893ab6b54df3dcbe} 
+\index{Antenas.c@{Antenas.c}!lerAntenasDoFicheiro@{lerAntenasDoFicheiro}}
+\index{lerAntenasDoFicheiro@{lerAntenasDoFicheiro}!Antenas.c@{Antenas.c}}
+\doxysubsubsection{\texorpdfstring{lerAntenasDoFicheiro()}{lerAntenasDoFicheiro()}}
+{\footnotesize\ttfamily Antena \texorpdfstring{$\ast$}{*} ler\+Antenas\+Do\+Ficheiro (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{nome\+Ficheiro,  }\item[{Antena \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{lista,  }\item[{int \texorpdfstring{$\ast$}{*}}]{linha,  }\item[{int \texorpdfstring{$\ast$}{*}}]{coluna }\end{DoxyParamCaption})}
+
+
+
+Lê antenas de um arquivo e as insere na lista. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em nome\+Ficheiro} & Nome do arquivo a ser lido. \\
+\hline
+{\em lista} & Ponteiro para a lista de antenas. \\
+\hline
+{\em linha} & Ponteiro para armazenar o número de linhas da matriz. \\
+\hline
+{\em coluna} & Ponteiro para armazenar o número de colunas da matriz. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Antena\texorpdfstring{$\ast$}{*} Ponteiro para a lista de antenas. 
+\end{DoxyReturn}
+\Hypertarget{Antenas_8c_a64bbc7ae322dd40f788cbe34daf01ae9}\label{Antenas_8c_a64bbc7ae322dd40f788cbe34daf01ae9} 
+\index{Antenas.c@{Antenas.c}!liberarAntenas@{liberarAntenas}}
+\index{liberarAntenas@{liberarAntenas}!Antenas.c@{Antenas.c}}
+\doxysubsubsection{\texorpdfstring{liberarAntenas()}{liberarAntenas()}}
+{\footnotesize\ttfamily void liberar\+Antenas (\begin{DoxyParamCaption}\item[{Antena \texorpdfstring{$\ast$}{*}}]{lista }\end{DoxyParamCaption})}
+
+
+
+Libera a memória da lista de antenas. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lista} & Ponteiro para a lista de antenas. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{Antenas_8c_ad8e25ea7e05f77d363c12d6f63e7ebde}\label{Antenas_8c_ad8e25ea7e05f77d363c12d6f63e7ebde} 
+\index{Antenas.c@{Antenas.c}!listarAntenas@{listarAntenas}}
+\index{listarAntenas@{listarAntenas}!Antenas.c@{Antenas.c}}
+\doxysubsubsection{\texorpdfstring{listarAntenas()}{listarAntenas()}}
+{\footnotesize\ttfamily void listar\+Antenas (\begin{DoxyParamCaption}\item[{Antena \texorpdfstring{$\ast$}{*}}]{lista }\end{DoxyParamCaption})}
+
+
+
+Imprime a lista de antenas. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lista} & Ponteiro para a lista de antenas. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{Antenas_8c_aba2017c66b22e3eb30e64352b846c6ee}\label{Antenas_8c_aba2017c66b22e3eb30e64352b846c6ee} 
+\index{Antenas.c@{Antenas.c}!recolherDadosAntena@{recolherDadosAntena}}
+\index{recolherDadosAntena@{recolherDadosAntena}!Antenas.c@{Antenas.c}}
+\doxysubsubsection{\texorpdfstring{recolherDadosAntena()}{recolherDadosAntena()}}
+{\footnotesize\ttfamily void recolher\+Dados\+Antena (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{freq,  }\item[{int \texorpdfstring{$\ast$}{*}}]{x,  }\item[{int \texorpdfstring{$\ast$}{*}}]{y,  }\item[{int}]{linha,  }\item[{int}]{coluna }\end{DoxyParamCaption})}
+
+
+
+Solicita ao usuário os dados de uma antena. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em freq} & Ponteiro para armazenar a frequência da antena. \\
+\hline
+{\em x} & Ponteiro para armazenar a coordenada X. \\
+\hline
+{\em y} & Ponteiro para armazenar a coordenada Y. \\
+\hline
+{\em linha} & Número de linhas da matriz. \\
+\hline
+{\em coluna} & Número de colunas da matriz. \\
+\hline
+\end{DoxyParams}

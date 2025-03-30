@@ -1,0 +1,207 @@
+\doxysection{/home/leo/\+Secretária/\+Projeto\+EDA-\/main./\+Projeto\+EDA-\/main/\+Projeto\+EDA/src/\+Funções.c File Reference}
+\hypertarget{Fun_xC3_xA7_xC3_xB5es_8c}{}\label{Fun_xC3_xA7_xC3_xB5es_8c}\index{/home/leo/Secretária/ProjetoEDA-\/main./ProjetoEDA-\/main/ProjetoEDA/src/Funções.c@{/home/leo/Secretária/ProjetoEDA-\/main./ProjetoEDA-\/main/ProjetoEDA/src/Funções.c}}
+
+
+Implementação das funções principais do programa, incluindo menus e manipulação de dados.  
+
+
+{\ttfamily \#include "{}../resources/\+Funções.\+h"{}}\newline
+{\ttfamily \#include "{}../resources/\+Estruturas.\+h"{}}\newline
+Include dependency graph for Funções.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Fun_xC3_xA7_xC3_xB5es_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{Fun_xC3_xA7_xC3_xB5es_8c_a42a6afaf7d6af2e43f17b606270e3ea4}{limpartela}} ()
+\begin{DoxyCompactList}\small\item\em Limpa a tela do terminal. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Fun_xC3_xA7_xC3_xB5es_8c_a476b760037c5062b609f62bcf13f21ef}{mostrar\+Menu\+Principal}} ()
+\begin{DoxyCompactList}\small\item\em Mostra o menu principal do programa. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Fun_xC3_xA7_xC3_xB5es_8c_a4476f9478373ad2f4f0c362c2721a17f}{mostrar\+Menu\+Secundario}} ()
+\begin{DoxyCompactList}\small\item\em Mostra o menu secundário do programa. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Fun_xC3_xA7_xC3_xB5es_8c_ab3af51ccf75fc76ef4285a248ffe6073}{processar\+Opcao\+Secundaria}} (int opcao, Antena \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}lista, Nefasto \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}efeitos, int linha, int coluna, bool \texorpdfstring{$\ast$}{*}primeira\+Vez)
+\begin{DoxyCompactList}\small\item\em Processa as opções do menu secundário. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Fun_xC3_xA7_xC3_xB5es_8c_a2555a11122f7e79bf6639050c65761d6}{processar\+Opcao}} (int opcao, Antena \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}lista, Nefasto \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}efeitos, int \texorpdfstring{$\ast$}{*}linha, int \texorpdfstring{$\ast$}{*}coluna, bool \texorpdfstring{$\ast$}{*}primeira\+Vez)
+\begin{DoxyCompactList}\small\item\em Processa as opções do menu principal. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Fun_xC3_xA7_xC3_xB5es_8c_ac9239027593e4f16bd85630aa57b02bb}{executar\+Menu}} (Antena \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}lista, Nefasto \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}efeitos, int \texorpdfstring{$\ast$}{*}linha, int \texorpdfstring{$\ast$}{*}coluna, bool \texorpdfstring{$\ast$}{*}primera\+Vez)
+\begin{DoxyCompactList}\small\item\em Executa o menu principal do programa. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Fun_xC3_xA7_xC3_xB5es_8c_aad57c7bd457729a4727a1e10534188c1}{imprimir\+Matriz\+Antenas}} (Antena \texorpdfstring{$\ast$}{*}lista, Nefasto \texorpdfstring{$\ast$}{*}efeitos, int colunas, int linhas, int modo)
+\begin{DoxyCompactList}\small\item\em Imprime a matriz com as antenas e/ou efeitos nefastos. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Fun_xC3_xA7_xC3_xB5es_8c_afbd9d077bff76184e72c2fbcbc9f1cf4}{aumentar\+Matriz}} (int \texorpdfstring{$\ast$}{*}linhas, int \texorpdfstring{$\ast$}{*}colunas, Antena \texorpdfstring{$\ast$}{*}lista)
+\begin{DoxyCompactList}\small\item\em Redimensiona a matriz, permitindo aumentar ou diminuir suas dimensões. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementação das funções principais do programa, incluindo menus e manipulação de dados. 
+
+\begin{DoxyAuthor}{Author}
+Leonel Freitas (\href{mailto:a31520@alunos.ipca.pt}{\texttt{ a31520@alunos.\+ipca.\+pt}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+29-\/03-\/2025
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2025 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{Fun_xC3_xA7_xC3_xB5es_8c_afbd9d077bff76184e72c2fbcbc9f1cf4}\label{Fun_xC3_xA7_xC3_xB5es_8c_afbd9d077bff76184e72c2fbcbc9f1cf4} 
+\index{Funções.c@{Funções.c}!aumentarMatriz@{aumentarMatriz}}
+\index{aumentarMatriz@{aumentarMatriz}!Funções.c@{Funções.c}}
+\doxysubsubsection{\texorpdfstring{aumentarMatriz()}{aumentarMatriz()}}
+{\footnotesize\ttfamily void aumentar\+Matriz (\begin{DoxyParamCaption}\item[{int \texorpdfstring{$\ast$}{*}}]{linhas,  }\item[{int \texorpdfstring{$\ast$}{*}}]{colunas,  }\item[{Antena \texorpdfstring{$\ast$}{*}}]{lista }\end{DoxyParamCaption})}
+
+
+
+Redimensiona a matriz, permitindo aumentar ou diminuir suas dimensões. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em linhas} & Ponteiro para o número de linhas da matriz. \\
+\hline
+{\em colunas} & Ponteiro para o número de colunas da matriz. \\
+\hline
+{\em lista} & Ponteiro para a lista de antenas. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{Fun_xC3_xA7_xC3_xB5es_8c_ac9239027593e4f16bd85630aa57b02bb}\label{Fun_xC3_xA7_xC3_xB5es_8c_ac9239027593e4f16bd85630aa57b02bb} 
+\index{Funções.c@{Funções.c}!executarMenu@{executarMenu}}
+\index{executarMenu@{executarMenu}!Funções.c@{Funções.c}}
+\doxysubsubsection{\texorpdfstring{executarMenu()}{executarMenu()}}
+{\footnotesize\ttfamily void executar\+Menu (\begin{DoxyParamCaption}\item[{Antena \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{lista,  }\item[{Nefasto \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{efeitos,  }\item[{int \texorpdfstring{$\ast$}{*}}]{linha,  }\item[{int \texorpdfstring{$\ast$}{*}}]{coluna,  }\item[{bool \texorpdfstring{$\ast$}{*}}]{primera\+Vez }\end{DoxyParamCaption})}
+
+
+
+Executa o menu principal do programa. 
+
+Esta função exibe o menu principal em um loop até que o usuário escolha sair do programa. Ela chama a função {\ttfamily processar\+Opcao} para executar as ações correspondentes às opções escolhidas.
+
+
+\begin{DoxyParams}{Parameters}
+{\em lista} & Ponteiro para a lista de antenas. \\
+\hline
+{\em efeitos} & Ponteiro para a lista de efeitos nefastos. \\
+\hline
+{\em linha} & Ponteiro para o número de linhas da matriz. \\
+\hline
+{\em coluna} & Ponteiro para o número de colunas da matriz. \\
+\hline
+{\em primera\+Vez} & Ponteiro para o indicador de primeira execução. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{Fun_xC3_xA7_xC3_xB5es_8c_aad57c7bd457729a4727a1e10534188c1}\label{Fun_xC3_xA7_xC3_xB5es_8c_aad57c7bd457729a4727a1e10534188c1} 
+\index{Funções.c@{Funções.c}!imprimirMatrizAntenas@{imprimirMatrizAntenas}}
+\index{imprimirMatrizAntenas@{imprimirMatrizAntenas}!Funções.c@{Funções.c}}
+\doxysubsubsection{\texorpdfstring{imprimirMatrizAntenas()}{imprimirMatrizAntenas()}}
+{\footnotesize\ttfamily void imprimir\+Matriz\+Antenas (\begin{DoxyParamCaption}\item[{Antena \texorpdfstring{$\ast$}{*}}]{lista,  }\item[{Nefasto \texorpdfstring{$\ast$}{*}}]{efeitos,  }\item[{int}]{colunas,  }\item[{int}]{linhas,  }\item[{int}]{modo }\end{DoxyParamCaption})}
+
+
+
+Imprime a matriz com as antenas e/ou efeitos nefastos. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lista} & Ponteiro para a lista de antenas. \\
+\hline
+{\em efeitos} & Ponteiro para a lista de efeitos nefastos. \\
+\hline
+{\em colunas} & Número de colunas da matriz. \\
+\hline
+{\em linhas} & Número de linhas da matriz. \\
+\hline
+{\em modo} & Modo de impressão (1\+: apenas antenas, 2\+: apenas efeitos, 3\+: ambos). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{Fun_xC3_xA7_xC3_xB5es_8c_a42a6afaf7d6af2e43f17b606270e3ea4}\label{Fun_xC3_xA7_xC3_xB5es_8c_a42a6afaf7d6af2e43f17b606270e3ea4} 
+\index{Funções.c@{Funções.c}!limpartela@{limpartela}}
+\index{limpartela@{limpartela}!Funções.c@{Funções.c}}
+\doxysubsubsection{\texorpdfstring{limpartela()}{limpartela()}}
+{\footnotesize\ttfamily void limpartela (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Limpa a tela do terminal. 
+
+Esta função utiliza comandos do sistema operacional para limpar a tela do terminal. No Windows, o comando "{}cls"{} é usado, enquanto no Unix/\+Linux/\+Mac\+OS, o comando "{}clear"{} é utilizado. O operador "{}\texorpdfstring{$\vert$}{|}\texorpdfstring{$\vert$}{|}"{} garante que o comando correto seja executado dependendo do sistema. \Hypertarget{Fun_xC3_xA7_xC3_xB5es_8c_a476b760037c5062b609f62bcf13f21ef}\label{Fun_xC3_xA7_xC3_xB5es_8c_a476b760037c5062b609f62bcf13f21ef} 
+\index{Funções.c@{Funções.c}!mostrarMenuPrincipal@{mostrarMenuPrincipal}}
+\index{mostrarMenuPrincipal@{mostrarMenuPrincipal}!Funções.c@{Funções.c}}
+\doxysubsubsection{\texorpdfstring{mostrarMenuPrincipal()}{mostrarMenuPrincipal()}}
+{\footnotesize\ttfamily void mostrar\+Menu\+Principal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Mostra o menu principal do programa. 
+
+Este menu apresenta as opções principais disponíveis para o usuário. Ele é exibido no início do programa e após o retorno do menu secundário. \Hypertarget{Fun_xC3_xA7_xC3_xB5es_8c_a4476f9478373ad2f4f0c362c2721a17f}\label{Fun_xC3_xA7_xC3_xB5es_8c_a4476f9478373ad2f4f0c362c2721a17f} 
+\index{Funções.c@{Funções.c}!mostrarMenuSecundario@{mostrarMenuSecundario}}
+\index{mostrarMenuSecundario@{mostrarMenuSecundario}!Funções.c@{Funções.c}}
+\doxysubsubsection{\texorpdfstring{mostrarMenuSecundario()}{mostrarMenuSecundario()}}
+{\footnotesize\ttfamily void mostrar\+Menu\+Secundario (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Mostra o menu secundário do programa. 
+
+Este menu é exibido após o carregamento dos dados e permite ao usuário realizar operações específicas, como adicionar ou remover antenas, verificar efeitos nefastos, e redimensionar a matriz. \Hypertarget{Fun_xC3_xA7_xC3_xB5es_8c_a2555a11122f7e79bf6639050c65761d6}\label{Fun_xC3_xA7_xC3_xB5es_8c_a2555a11122f7e79bf6639050c65761d6} 
+\index{Funções.c@{Funções.c}!processarOpcao@{processarOpcao}}
+\index{processarOpcao@{processarOpcao}!Funções.c@{Funções.c}}
+\doxysubsubsection{\texorpdfstring{processarOpcao()}{processarOpcao()}}
+{\footnotesize\ttfamily void processar\+Opcao (\begin{DoxyParamCaption}\item[{int}]{opcao,  }\item[{Antena \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{lista,  }\item[{Nefasto \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{efeitos,  }\item[{int \texorpdfstring{$\ast$}{*}}]{linha,  }\item[{int \texorpdfstring{$\ast$}{*}}]{coluna,  }\item[{bool \texorpdfstring{$\ast$}{*}}]{primeira\+Vez }\end{DoxyParamCaption})}
+
+
+
+Processa as opções do menu principal. 
+
+Esta função é responsável por executar a ação correspondente à opção escolhida pelo usuário no menu principal. Ela coordena o carregamento de dados, a exibição do menu secundário e a saída do programa.
+
+
+\begin{DoxyParams}{Parameters}
+{\em opcao} & Opção escolhida pelo usuário. \\
+\hline
+{\em lista} & Ponteiro para a lista de antenas. \\
+\hline
+{\em efeitos} & Ponteiro para a lista de efeitos nefastos. \\
+\hline
+{\em linha} & Ponteiro para o número de linhas da matriz. \\
+\hline
+{\em coluna} & Ponteiro para o número de colunas da matriz. \\
+\hline
+{\em primeira\+Vez} & Ponteiro para o indicador de primeira execução. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{Fun_xC3_xA7_xC3_xB5es_8c_ab3af51ccf75fc76ef4285a248ffe6073}\label{Fun_xC3_xA7_xC3_xB5es_8c_ab3af51ccf75fc76ef4285a248ffe6073} 
+\index{Funções.c@{Funções.c}!processarOpcaoSecundaria@{processarOpcaoSecundaria}}
+\index{processarOpcaoSecundaria@{processarOpcaoSecundaria}!Funções.c@{Funções.c}}
+\doxysubsubsection{\texorpdfstring{processarOpcaoSecundaria()}{processarOpcaoSecundaria()}}
+{\footnotesize\ttfamily void processar\+Opcao\+Secundaria (\begin{DoxyParamCaption}\item[{int}]{opcao,  }\item[{Antena \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{lista,  }\item[{Nefasto \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{efeitos,  }\item[{int}]{linha,  }\item[{int}]{coluna,  }\item[{bool \texorpdfstring{$\ast$}{*}}]{primeira\+Vez }\end{DoxyParamCaption})}
+
+
+
+Processa as opções do menu secundário. 
+
+Esta função é responsável por executar a ação correspondente à opção escolhida pelo usuário no menu secundário. Ela manipula a lista de antenas e efeitos nefastos, além de atualizar a matriz e salvar os dados em um arquivo binário.
+
+
+\begin{DoxyParams}{Parameters}
+{\em opcao} & Opção escolhida pelo usuário. \\
+\hline
+{\em lista} & Ponteiro para a lista de antenas. \\
+\hline
+{\em efeitos} & Ponteiro para a lista de efeitos nefastos. \\
+\hline
+{\em linha} & Número de linhas da matriz. \\
+\hline
+{\em coluna} & Número de colunas da matriz. \\
+\hline
+{\em primeira\+Vez} & Ponteiro para o indicador de primeira execução. \\
+\hline
+\end{DoxyParams}

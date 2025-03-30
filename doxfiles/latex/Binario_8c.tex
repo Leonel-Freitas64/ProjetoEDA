@@ -1,0 +1,90 @@
+\doxysection{/home/leo/\+Secretária/\+Projeto\+EDA-\/main./\+Projeto\+EDA-\/main/\+Projeto\+EDA/src/\+Binario.c File Reference}
+\hypertarget{Binario_8c}{}\label{Binario_8c}\index{/home/leo/Secretária/ProjetoEDA-\/main./ProjetoEDA-\/main/ProjetoEDA/src/Binario.c@{/home/leo/Secretária/ProjetoEDA-\/main./ProjetoEDA-\/main/ProjetoEDA/src/Binario.c}}
+
+
+Implementação das funções para manipulação de arquivos binários.  
+
+
+{\ttfamily \#include "{}../resources/\+Funções.\+h"{}}\newline
+{\ttfamily \#include "{}../resources/\+Estruturas.\+h"{}}\newline
+Include dependency graph for Binario.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Binario_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{Binario_8c_a1dac3d243e3ed031f5d2f50f208778de}{salvar\+Em\+Binario}} (Antena \texorpdfstring{$\ast$}{*}lista, Nefasto \texorpdfstring{$\ast$}{*}efeitos, int largura, int altura, const char \texorpdfstring{$\ast$}{*}nome\+Arquivo)
+\begin{DoxyCompactList}\small\item\em Salva os dados de antenas e efeitos nefastos em um arquivo binário. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Binario_8c_a496965364f94b0e76e9ebd2f79c728aa}{ler\+De\+Binario}} (Antena \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}lista, Nefasto \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}efeitos, int \texorpdfstring{$\ast$}{*}largura, int \texorpdfstring{$\ast$}{*}altura, const char \texorpdfstring{$\ast$}{*}nome\+Arquivo)
+\begin{DoxyCompactList}\small\item\em Lê os dados de antenas e efeitos nefastos de um arquivo binário. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementação das funções para manipulação de arquivos binários. 
+
+\begin{DoxyAuthor}{Author}
+Leonel Freitas (\href{mailto:a31520@alunos.ipca.pt}{\texttt{ a31520@alunos.\+ipca.\+pt}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+29-\/03-\/2025
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2025 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{Binario_8c_a496965364f94b0e76e9ebd2f79c728aa}\label{Binario_8c_a496965364f94b0e76e9ebd2f79c728aa} 
+\index{Binario.c@{Binario.c}!lerDeBinario@{lerDeBinario}}
+\index{lerDeBinario@{lerDeBinario}!Binario.c@{Binario.c}}
+\doxysubsubsection{\texorpdfstring{lerDeBinario()}{lerDeBinario()}}
+{\footnotesize\ttfamily void ler\+De\+Binario (\begin{DoxyParamCaption}\item[{Antena \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{lista,  }\item[{Nefasto \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{efeitos,  }\item[{int \texorpdfstring{$\ast$}{*}}]{largura,  }\item[{int \texorpdfstring{$\ast$}{*}}]{altura,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{nome\+Arquivo }\end{DoxyParamCaption})}
+
+
+
+Lê os dados de antenas e efeitos nefastos de um arquivo binário. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lista} & Ponteiro para a lista de antenas. \\
+\hline
+{\em efeitos} & Ponteiro para a lista de efeitos nefastos. \\
+\hline
+{\em largura} & Ponteiro para armazenar o número de colunas da matriz. \\
+\hline
+{\em altura} & Ponteiro para armazenar o número de linhas da matriz. \\
+\hline
+{\em nome\+Arquivo} & Nome do arquivo binário de onde os dados serão lidos. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{Binario_8c_a1dac3d243e3ed031f5d2f50f208778de}\label{Binario_8c_a1dac3d243e3ed031f5d2f50f208778de} 
+\index{Binario.c@{Binario.c}!salvarEmBinario@{salvarEmBinario}}
+\index{salvarEmBinario@{salvarEmBinario}!Binario.c@{Binario.c}}
+\doxysubsubsection{\texorpdfstring{salvarEmBinario()}{salvarEmBinario()}}
+{\footnotesize\ttfamily void salvar\+Em\+Binario (\begin{DoxyParamCaption}\item[{Antena \texorpdfstring{$\ast$}{*}}]{lista,  }\item[{Nefasto \texorpdfstring{$\ast$}{*}}]{efeitos,  }\item[{int}]{largura,  }\item[{int}]{altura,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{nome\+Arquivo }\end{DoxyParamCaption})}
+
+
+
+Salva os dados de antenas e efeitos nefastos em um arquivo binário. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lista} & Ponteiro para a lista de antenas. \\
+\hline
+{\em efeitos} & Ponteiro para a lista de efeitos nefastos. \\
+\hline
+{\em largura} & Número de colunas da matriz. \\
+\hline
+{\em altura} & Número de linhas da matriz. \\
+\hline
+{\em nome\+Arquivo} & Nome do arquivo binário onde os dados serão salvos. \\
+\hline
+\end{DoxyParams}
