@@ -2,6 +2,7 @@
 #define FUNCOES_H
 
 #include "Estruturas.h"
+#include "Mensagem.h"
 
 // Menus
 void mostrarMenuPrincipal();
@@ -26,6 +27,12 @@ void liberarEfeitosNefastos(Nefasto* lista);
 // Manipulação de arquivos
 void salvarEmBinario(Antena* lista, Nefasto* efeitos, int largura, int altura, const char* nomeArquivo);
 void lerDeBinario(Antena** lista, Nefasto** efeitos, int* largura, int* altura, const char* nomeArquivo);
+
+//Mensagens
+/* void inicializarMensagemLista(MensagemLista* lista);
+MensagemLista* carregarMensagens(const char* caminho);
+void mostrarMensagem(MensagemLista* lista, int idioma, int codigo);
+void liberarMensagens(MensagemLista* lista); */
 
 // Outros
 void recolherDadosAntena(char* freq, int* x, int* y, int linha, int coluna);

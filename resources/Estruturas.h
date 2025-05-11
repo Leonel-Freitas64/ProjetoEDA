@@ -22,4 +22,17 @@ typedef struct Nefasto {
     struct Nefasto* next; // Ponteiro para o próximo efeito nefasto
 } Nefasto;
 
+typedef struct Mensagem {
+    int codigo;
+    char texto[100];
+    struct Mensagem* next;
+} Mensagem;
+
+typedef struct ListaMensagem {
+    char idiomaStr[8]; // Código do idioma como string (ex.: "PT", "EN", "ZH")
+    int idioma;        // Índice do idioma (ex.: 1, 2, 3)
+    Mensagem* mensagens;
+    struct ListaMensagem* next;
+} ListaMensagem;
+
 #endif // ESTRUTURAS_H

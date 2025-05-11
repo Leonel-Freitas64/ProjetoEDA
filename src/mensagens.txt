@@ -1,0 +1,39 @@
+PT;1;Operação realizada com sucesso.
+EN;1;Operation completed successfully.
+ZH;1;操作成功完成。
+
+PT;404;Elemento não encontrado.
+EN;404;Element not found.
+ZH;404;未找到元素。
+
+PT;500;Erro interno do sistema.
+EN;500;Internal system error.
+ZH;500;系统内部错误。
+
+PT;100;Antena adicionada com sucesso.
+EN;100;Antenna added successfully.
+ZH;100;成功添加天线。
+
+PT;101;Antena removida com sucesso.
+EN;101;Antenna removed successfully.
+ZH;101;天线已成功移除。
+
+PT;102;Coordenadas inválidas!
+EN;102;Invalid coordinates!
+ZH;102;坐标无效！
+
+PT;103;⚠️ Sobreposição detetada em (%d, %d) com '%c'
+EN;103;⚠️ Overlap detected at (%d, %d) with '%c'
+ZH;103;⚠️ 在 (%d, %d) 检测到与 '%c' 的重叠
+
+PT;104;⚠️ Efeito nefasto duplicado em (%d, %d)
+EN;104;⚠️ Duplicate nefasto effect at (%d, %d)
+ZH;104;⚠️ 在 (%d, %d) 出现重复的有害效果
+
+PT;105;Erro ao abrir o ficheiro!
+EN;105;Error opening the file!
+ZH;105;无法打开文件！
+
+PT;106;Ficheiro gravado com sucesso.
+EN;106;File saved successfully.
+ZH;106;文件保存成功。
