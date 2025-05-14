@@ -20,23 +20,53 @@
  * @param y Coordenada Y da antena.
  * @return Antena* Ponteiro para a nova antena ou NULL em caso de erro.
  */
-Antena *criarAntena(char freq, int x, int y)
-{
-    // Aloca memória para a nova antena
-    Antena *nova = malloc(sizeof(Antena));
-    if (!nova)
+    Antena* criarAntena(char freq, int x, int y) {
+        Antena* nova = (Antena*)malloc(sizeof(Antena));
+        if (!nova) {
+            printf("Erro: Falha ao alocar memória para a nova antena.\n");
+            return NULL;
+        }
+
+        nova->frequencia = freq;
+        nova->x = x;
+        nova->y = y;
+        nova->next = NULL;
+
+        return nova;
+    }
+
+Antena* encontrarAntenaPorCoordenadas(Antena* lista, int x, int y) {
+    if (!lista) {
+        printf("Erro: A lista de antenas está vazia.\n");
         return NULL;
+    }
 
-    // Inicializa os campos da antena
-    memset(nova, 0, sizeof(Antena));
-    nova->frequencia = freq;
-    nova->x = x;
-    nova->y = y;
-    nova->next = NULL;
+    Antena* atual = lista;
+    while (atual) {
+        if (atual->x == x && atual->y == y) {
+            return atual; // Retorna a antena encontrada
+        }
+        atual = atual->next;
+    }
 
-    return nova;
+    printf("Antena com coordenadas (%d, %d) não encontrada.\n", x, y);
+    return NULL; // Retorna NULL se a antena não for encontrada
 }
 
+Antena* selecionarAntena(Antena* lista, int linha, int coluna) {
+    int x, y;
+    char f; // ignorado
+    if (recolherDadosAntena(&f, &x, &y, linha, coluna) == false) {
+        printf("Erro ao recolher os dados da antena.\n");
+        return NULL;
+    }
+
+    Antena* antenaEncontrada = encontrarAntenaPorCoordenadas(lista, x, y);
+    if (!antenaEncontrada) {
+        printf("Antena com frequência '%c' e coordenadas (%d, %d) não encontrada.\n", f, x, y);
+    }
+    return antenaEncontrada;
+}
 /**
  * @brief Insere uma antena na lista.
  * 
@@ -47,28 +77,26 @@ Antena *criarAntena(char freq, int x, int y)
  * @return true Se a antena foi inserida com sucesso.
  * @return false Se já existe uma antena na mesma posição ou ocorreu um erro.
  */
-bool inserirAntena(Antena **head, char freq, int x, int y)
-{
+Antena* inserirAntena(Antena* lista, char freq, int x, int y) {
     // Verifica se já existe uma antena na mesma posição
-    Antena *current = *head;
-    while (current)
-    {
-        if (current->x == x && current->y == y)
-        {
-            printf("Erro: Já existe uma antena nas coordenadas (%d, %d)\n", x, y);
-            return false;
+    Antena* atual = lista;
+    while (atual) {
+        if (atual->x == x && atual->y == y) {
+            printf("Erro: Já existe uma antena na posição (%d, %d).\n", x, y);
+            return lista; // Retorna a lista sem alterações
         }
-        current = current->next;
+        atual = atual->next;
     }
 
-    // Cria e insere a nova antena no início da lista
-    Antena *nova = criarAntena(freq, x, y);
-    if (!nova)
-        return false;
-    nova->next = *head;
-    *head = nova;
+    // Cria uma nova antena
+    Antena* nova = criarAntena(freq, x, y);
+    if (!nova) {
+        return lista; // Retorna a lista sem alterações em caso de erro
+    }
 
-    return true;
+    // Insere a nova antena no início da lista
+    nova->next = lista;
+    return nova; // Retorna a nova lista com a antena adicionada
 }
 
 /**
@@ -80,42 +108,39 @@ bool inserirAntena(Antena **head, char freq, int x, int y)
  * @return true Se a antena foi removida com sucesso.
  * @return false Se a antena não foi encontrada ou ocorreu um erro.
  */
-bool eliminarAntena(Antena **head, int x, int y)
-{
-    if (!head || !*head)
-    {
-        return false; // Lista vazia
+Antena* eliminarAntena(Antena* lista, int x, int y) {
+    if (!lista) {
+        printf("Erro: A lista de antenas está vazia.\n");
+        return NULL;
     }
 
-    Antena *atual = *head;
-    Antena *anterior = NULL;
+    Antena* atual = lista;
+    Antena* anterior = NULL;
 
-    // Percorre a lista para encontrar a antena com as coordenadas (x, y)
-    while (atual)
-    {
-        if (atual->x == x && atual->y == y)
-        {
-            // Caso a antena seja encontrada
-            if (anterior)
-            {
-                // Ajusta o ponteiro do nó anterior
+    while (atual) {
+        if (atual->x == x && atual->y == y) {
+            // Antena encontrada, remove da lista
+            if (anterior) {
                 anterior->next = atual->next;
+            } else {
+                lista = atual->next; // Atualiza o início da lista
             }
-            else
-            {
-                // Atualiza o head se for a primeira antena
-                *head = atual->next;
-            }
-            free(atual); // Libera a memória da antena removida
-            return true; // Antena removida com sucesso
+
+            // Imprime os dados da antena antes de liberar a memória
+            printf("Antena removida: Frequência '%c', Coordenadas (%d, %d)\n", atual->frequencia, atual->x, atual->y);
+
+            // Libera a memória da antena
+            free(atual);
+            return lista;
         }
+
         anterior = atual;
         atual = atual->next;
     }
 
-    return false; // Antena não encontrada
+    printf("Erro: Antena com coordenadas (%d, %d) não encontrada.\n", x, y);
+    return lista;
 }
-
 /**
  * @brief Solicita ao usuário os dados de uma antena.
  * 
@@ -125,9 +150,10 @@ bool eliminarAntena(Antena **head, int x, int y)
  * @param linha Número de linhas da matriz.
  * @param coluna Número de colunas da matriz.
  */
-void recolherDadosAntena(char *freq, int *x, int *y, int linha, int coluna)
+bool recolherDadosAntena(char *freq, int *x, int *y, int linha, int coluna)
 {
     // Solicita a frequência da antena ao usuário
+    if(!freq || !x || !y) return false;
     do
     {
         printf("Digite a frequência da antena (A-Z, a-z, 0-9): ");
@@ -159,7 +185,9 @@ void recolherDadosAntena(char *freq, int *x, int *y, int linha, int coluna)
             printf("Posição Y inválida! Deve estar entre 0 e %d.\n", linha - 1);
         }
     } while (*y < 0 || *y >= linha);
+    return true;
 }
+
 
 /**
  * @brief Lê antenas de um arquivo e as insere na lista.
@@ -170,7 +198,7 @@ void recolherDadosAntena(char *freq, int *x, int *y, int linha, int coluna)
  * @param coluna Ponteiro para armazenar o número de colunas da matriz.
  * @return Antena* Ponteiro para a lista de antenas.
  */
-Antena *lerAntenasDoFicheiro(const char *nomeFicheiro, Antena **lista, int *linha, int *coluna)
+Antena *lerAntenasDoFicheiro(const char *nomeFicheiro, int *linha, int *coluna)
 {
     FILE *f = fopen(nomeFicheiro, "r");
     if (!f)
@@ -178,14 +206,7 @@ Antena *lerAntenasDoFicheiro(const char *nomeFicheiro, Antena **lista, int *linh
         printf("Erro ao abrir o ficheiro '%s'\n", nomeFicheiro);
         return NULL;
     }
-
-    // Libera a memória da lista de antenas existente, se necessário
-    if (*lista)
-    {
-        liberarAntenas(*lista);
-        *lista = NULL;
-    }
-
+    Antena* lista = NULL;
     char buffer[256];
     int y = 0;
     int maxColuna = 0;
@@ -193,7 +214,7 @@ Antena *lerAntenasDoFicheiro(const char *nomeFicheiro, Antena **lista, int *linh
     // Lê o arquivo linha por linha
     while (fgets(buffer, sizeof(buffer), f))
     {
-        buffer[strcspn(buffer, "\r\n")] = '\0';
+        buffer[strcspn(buffer, "\r\n")] = '\0'; // Remove caracteres de nova linha
 
         // Remove espaços em branco à direita
         int len = strlen(buffer);
@@ -228,9 +249,9 @@ Antena *lerAntenasDoFicheiro(const char *nomeFicheiro, Antena **lista, int *linh
             char c = buffer[i];
             if (isalpha(c) || isdigit(c))
             {
-                if (inserirAntena(lista, c, i, y) == true)
+                if (inserirAntena(lista, c, i, y) != NULL)
                 {
-                    // Inserção bem-sucedida
+                    lista = inserirAntena(lista, c, i, y);
                 }
                 else
                 {
@@ -241,11 +262,13 @@ Antena *lerAntenasDoFicheiro(const char *nomeFicheiro, Antena **lista, int *linh
         y++;
     }
 
+    fclose(f);
+
+    // Atualiza as dimensões da matriz
     *linha = y;
     *coluna = maxColuna;
 
-    fclose(f);
-    return *lista;
+    return lista;
 }
 
 /**
@@ -253,14 +276,18 @@ Antena *lerAntenasDoFicheiro(const char *nomeFicheiro, Antena **lista, int *linh
  * 
  * @param lista Ponteiro para a lista de antenas.
  */
-void listarAntenas(Antena *lista)
-{
-    Antena *current = lista;
-    while (current)
-    {
-        printf("Frequencia: %c, Coordenadas: (%d, %d)\n", current->frequencia, current->x, current->y);
-        current = current->next;
+bool listarAntenas(Antena* lista) {
+    if (!lista) {
+        printf("Lista vazia!\n");
+        return false;
     }
+
+    Antena* atual = lista;
+    while (atual) {
+        printf("Frequência: %c, Coordenadas: (%d, %d)\n", atual->frequencia, atual->x, atual->y);
+        atual = atual->next;
+    }
+    return true;
 }
 
 /**
@@ -268,8 +295,12 @@ void listarAntenas(Antena *lista)
  * 
  * @param lista Ponteiro para a lista de antenas.
  */
-void liberarAntenas(Antena *lista)
+bool liberarAntenas(Antena *lista)
 {
+    if (!lista)
+    {
+        return false;
+    }
     Antena *atual = lista;
     while (atual)
     {
@@ -277,4 +308,5 @@ void liberarAntenas(Antena *lista)
         atual = atual->next;
         free(temp);
     }
+    return true;
 }

@@ -33,11 +33,5 @@ int main()
         processarOpcao(opcao, &lista, &efeitos, &linha, &coluna, &primeiraVez);
     } while (opcao != 3);
 
-    // Libera memória ao sair
-    if (lista)
-        liberarAntenas(lista);
-    if (efeitos)
-        liberarEfeitosNefastos(&efeitos);
-
     return 0;
 }

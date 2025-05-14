@@ -12,6 +12,7 @@
           "src/Binario.c",
           "src/Antenas.c",
           "src/Nefasto.c",
+          "src/Grafos.c",
           "-Iresources",
           "-o",
           "bin/main"

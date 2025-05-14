@@ -41,46 +41,47 @@ Nefasto* criarEfeitoNefasto(Antena* a1, Antena* a2, int x1, int y1, int x2, int 
 }
 
 /**
- * @brief Insere um novo efeito nefasto na lista.
- * 
- * @param listaNefastos Ponteiro para o ponteiro da lista de efeitos nefastos.
- * @param antena1 Ponteiro para a primeira antena.
- * @param antena2 Ponteiro para a segunda antena.
- * @param x1 Coordenada X inicial do efeito.
- * @param y1 Coordenada Y inicial do efeito.
- * @param x2 Coordenada X final do efeito.
- * @param y2 Coordenada Y final do efeito.
- */
-void inserirNefasto(Nefasto** listaNefastos, Antena* antena1, Antena* antena2, int x1, int y1, int x2, int y2)
-{
-    // Cria um novo efeito nefasto
-    Nefasto* novo = criarEfeitoNefasto(antena1, antena2, x1, y1, x2, y2);
-    if (!novo)
-    {
-        printf("Erro ao criar efeito nefasto.\n");
-        return;
-    }
-
-    // Insere o novo efeito no início da lista
-    novo->next = *listaNefastos;
-    *listaNefastos = novo;
-}
-
-/**
  * @brief Libera a memória da lista de efeitos nefastos.
  * 
- * @param listaNefastos Ponteiro para o ponteiro da lista de efeitos nefastos.
+ * @param listaNefastos Ponteiro para a lista de efeitos nefastos.
+ * @return Nefasto* Retorna NULL após liberar a memória.
  */
-void liberarEfeitosNefastos(Nefasto** listaNefastos)
+Nefasto* liberarEfeitosNefastos(Nefasto* listaNefastos)
 {
-    Nefasto* atual = *listaNefastos;
+    Nefasto* atual = listaNefastos;
     while (atual)
     {
         Nefasto* temp = atual;
         atual = atual->next;
         free(temp); // Libera a memória do efeito atual
     }
-    *listaNefastos = NULL; // Define a lista como vazia
+    return NULL; // Retorna NULL para que o chamador possa redefinir o ponteiro
+}
+
+/**
+ * @brief Adiciona um novo efeito nefasto à lista.
+ * 
+ * @param listaNefastos Ponteiro para a lista de efeitos nefastos.
+ * @param antena1 Primeira antena envolvida no efeito.
+ * @param antena2 Segunda antena envolvida no efeito.
+ * @param x1 Coordenada X da primeira antena.
+ * @param y1 Coordenada Y da primeira antena.
+ * @param x2 Coordenada X da segunda antena.
+ * @param y2 Coordenada Y da segunda antena.
+ * @return Nefasto* Retorna o ponteiro para a lista atualizada.
+ */
+Nefasto* adicionarEfeitoNefasto(Nefasto* listaNefastos, Antena* antena1, Antena* antena2, int x1, int y1, int x2, int y2)
+{
+    Nefasto* novo = criarEfeitoNefasto(antena1, antena2, x1, y1, x2, y2);
+    if (!novo)
+    {
+        printf("Erro ao criar efeito nefasto.\n");
+        return listaNefastos; // Retorna a lista sem alterações
+    }
+
+    // Insere o novo efeito no início da lista
+    novo->next = listaNefastos;
+    return novo; // Retorna a nova lista com o efeito adicionado
 }
 
 /**
@@ -91,100 +92,53 @@ void liberarEfeitosNefastos(Nefasto** listaNefastos)
  * @param coluna Número de colunas da matriz.
  * @return Nefasto* Ponteiro para a lista de efeitos nefastos calculados.
  */
-Nefasto* calcularEfeitoNefasto(Antena* lista, int linha, int coluna)
-{
+Nefasto* calcularEfeitoNefasto(Antena* lista, int linha, int coluna) {
     Nefasto* listaNefastos = NULL;
-    Antena* a1 = lista;
+    for (Antena* a1 = lista; a1 != NULL; a1 = a1->next) {
+        for (Antena* a2 = a1->next; a2 != NULL; a2 = a2->next) {
+            if (a1->frequencia != a2->frequencia) continue;
 
-    // Percorre todas as combinações de antenas
-    while (a1)
-    {
-        Antena* a2 = a1->next;
-        while (a2)
-        {
-            // Verifica se as antenas têm a mesma frequência
-            if (a1->frequencia == a2->frequencia)
-            {
-                int tipoEfeito = 0;
-                int dx = abs(a2->x - a1->x);
-                int dy = abs(a2->y - a1->y);
-                int distancia = dx > dy ? dx : dy;
+            int dx = abs(a1->x - a2->x);
+            int dy = abs(a1->y - a2->y);
 
-                // Determina o tipo de efeito nefasto com base na distância
-                if (distancia <= 3)
-                {
-                    if (a1->x == a2->x)
-                    {
-                        tipoEfeito = 1; // Efeito vertical
-                    }
-                    else if (a1->y == a2->y)
-                    {
-                        tipoEfeito = 2; // Efeito horizontal
-                    }
-                    else if (dx + dy <= 4)
-                    {
-                        tipoEfeito = 3; // Efeito diagonal
-                    }
-                }
+            if (dx > 5 || dy > 5) continue;
 
-                switch (tipoEfeito)
-                {
-                case 1:
-                    if (a1->x + distancia >= coluna || a2->x + distancia >= coluna)
-                    {
-                        /* code */
-                    }
-                    
-                    if (a1->y < a2->y)
-                    {
-                        inserirNefasto(&listaNefastos, a1, a2, a1->x, a1->y - distancia, a2->x, a2->y + distancia);
-                    }
-                    else
-                    {
-                        inserirNefasto(&listaNefastos, a1, a2, a2->x, a2->y - distancia, a1->x, a1->y + distancia);
-                    }
-                    break;
-                case 2:
-                    if (a1->x < a2->x)
-                    {
-                        inserirNefasto(&listaNefastos, a1, a2, a1->x - distancia, a1->y, a2->x + distancia, a2->y);
-                    }
-                    else
-                    {
-                        inserirNefasto(&listaNefastos, a1, a2, a2->x - distancia, a2->y, a1->x + distancia, a1->y);
-                    }
-                    break;
-                case 3:
-                    // Top-left to bottom-right
-                    if (a1->x < a2->x && a1->y < a2->y)
-                    {
-                        inserirNefasto(&listaNefastos, a1, a2, a1->x - dx, a1->y - dy, a2->x + dx, a2->y + dy);
-                    }
-                    // Bottom-left to top-right
-                    else if (a1->x < a2->x && a1->y > a2->y)
-                    {
-                        inserirNefasto(&listaNefastos, a1, a2, a1->x - dx, a1->y + dy, a2->x + dx, a2->y - dy);
-                    }
-                    // Top-right to bottom-left
-                    else if (a1->x > a2->x && a1->y < a2->y)
-                    {
-                        inserirNefasto(&listaNefastos, a1, a2, a1->x + dx, a1->y - dy, a2->x - dx, a2->y + dy);
-                    }
-                    // Bottom-right to top-left
-                    else if (a1->x > a2->x && a1->y > a2->y)
-                    {
-                        inserirNefasto(&listaNefastos, a1, a2, a1->x + dx, a1->y + dy, a2->x - dx, a2->y - dy);
-                    }
-                    break;
-                default:
-                    break;
-                }
+            Antena* origem = a1;
+            Antena* destino = a2;
+
+            // Normalizar a ordem
+            if ((a2->x < a1->x) || (a2->x == a1->x && a2->y < a1->y)) {
+                origem = a2;
+                destino = a1;
             }
-            a2 = a2->next; // Move to the next antenna in the inner loop
-        }
-        a1 = a1->next; // Move to the next antenna in the outer loop
-    }
 
+            if (origem->x == destino->x) {
+                // Vertical
+                int yInicio = origem->y - dy;
+                int yFim = destino->y + dy;
+
+                listaNefastos = adicionarEfeitoNefasto(listaNefastos, origem, destino, origem->x, yInicio, origem->x, yFim);
+            } else if (origem->y == destino->y) {
+                // Horizontal
+                int xInicio = origem->x - dx;
+                int xFim = destino->x + dx;
+
+                listaNefastos = adicionarEfeitoNefasto(listaNefastos, origem, destino, xInicio, origem->y, xFim, origem->y);
+            } else if (dx + dy <= 10) {
+                // Diagonal
+                    int dirX = (destino->x > origem->x) ? dx : -dx;
+                    int dirY = (destino->y > origem->y) ? -dy : dy;
+                    
+                    int xInicio = origem->x - dirX;
+                    int yInicio = origem->y + dirY;
+                    int xFim = destino->x + dirX;
+                    int yFim = destino->y - dirY;
+
+                    listaNefastos = adicionarEfeitoNefasto(listaNefastos, origem, destino, xInicio, yInicio, xFim, yFim);
+            
+            }
+        }
+    }
     return listaNefastos;
 }
 
@@ -197,18 +151,18 @@ Nefasto* calcularEfeitoNefasto(Antena* lista, int linha, int coluna)
  * @param coluna Número de colunas da matriz.
  * @return Nefasto* Ponteiro para a lista de efeitos nefastos recalculados.
  */
-Nefasto* verificaEfeitoNefasto(Antena* listaAntenas, Nefasto** listaNefastos, int linha, int coluna)
+Nefasto* verificaEfeitoNefasto(Antena* listaAntenas, Nefasto* listaNefastos, int linha, int coluna)
 {
     // Free the existing list of "Nefasto" effects
-    if (*listaNefastos)
+    if (listaNefastos)
     {
         liberarEfeitosNefastos(listaNefastos);
     }
 
     // Recalculate the "Nefasto" effects based on the list of antennas
-    *listaNefastos = calcularEfeitoNefasto(listaAntenas, linha, coluna);
+    listaNefastos = calcularEfeitoNefasto(listaAntenas, linha, coluna);
 
-    return *listaNefastos;
+    return listaNefastos;
 }
 
 /**
