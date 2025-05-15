@@ -22,4 +22,19 @@ typedef struct Nefasto {
     struct Nefasto* next; // Ponteiro para o próximo efeito nefasto
 } Nefasto;
 
+typedef struct Aresta {
+    Antena* destino;
+    struct Aresta* next;
+} Aresta;
+
+typedef struct Vertice {
+    Antena* antena;
+    Aresta* adjacentes;
+    struct Vertice* next;
+} Vertice;
+
+typedef struct Grafo {
+    Vertice* vertices;
+} Grafo;
+
 #endif // ESTRUTURAS_H

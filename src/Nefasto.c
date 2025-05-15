@@ -40,6 +40,31 @@ Nefasto* criarEfeitoNefasto(Antena* a1, Antena* a2, int x1, int y1, int x2, int 
     return novo;
 }
 
+Nefasto* removerEfeitosPorAntena(Nefasto* listaNefastos, Antena* antena) {
+    Nefasto* atual = listaNefastos;
+    Nefasto* anterior = NULL;
+
+    while (atual) {
+        if (atual->antena1 == antena || atual->antena2 == antena) {
+            // Efeito nefasto encontrado, remove da lista
+            if (anterior) {
+                anterior->next = atual->next;
+            } else {
+                listaNefastos = atual->next; // Atualiza o início da lista
+            }
+
+            // Libera a memória do efeito nefasto
+            free(atual);
+            atual = (anterior) ? anterior->next : listaNefastos;
+        } else {
+            anterior = atual;
+            atual = atual->next;
+        }
+    }
+
+    return listaNefastos;
+}
+
 /**
  * @brief Libera a memória da lista de efeitos nefastos.
  * 
@@ -101,7 +126,7 @@ Nefasto* calcularEfeitoNefasto(Antena* lista, int linha, int coluna) {
             int dx = abs(a1->x - a2->x);
             int dy = abs(a1->y - a2->y);
 
-            if (dx > 5 || dy > 5) continue;
+            if (dx > 3 || dy > 3) continue;
 
             Antena* origem = a1;
             Antena* destino = a2;
@@ -124,7 +149,7 @@ Nefasto* calcularEfeitoNefasto(Antena* lista, int linha, int coluna) {
                 int xFim = destino->x + dx;
 
                 listaNefastos = adicionarEfeitoNefasto(listaNefastos, origem, destino, xInicio, origem->y, xFim, origem->y);
-            } else if (dx + dy <= 10) {
+            } else if (dx + dy <= 4) {
                 // Diagonal
                     int dirX = (destino->x > origem->x) ? dx : -dx;
                     int dirY = (destino->y > origem->y) ? -dy : dy;

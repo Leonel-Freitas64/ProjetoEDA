@@ -4,9 +4,9 @@
  * @brief Implementação das funções relacionadas à manipulação de antenas.
  * @version 1.1
  * @date 29-03-2025
- * 
+ *
  * @copyright Copyright (c) 2025
- * 
+ *
  */
 
 #include "../resources/Funções.h"
@@ -14,36 +14,42 @@
 
 /**
  * @brief Cria uma nova antena.
- * 
+ *
  * @param freq Frequência da antena (A-Z, a-z, 0-9).
  * @param x Coordenada X da antena.
  * @param y Coordenada Y da antena.
  * @return Antena* Ponteiro para a nova antena ou NULL em caso de erro.
  */
-    Antena* criarAntena(char freq, int x, int y) {
-        Antena* nova = (Antena*)malloc(sizeof(Antena));
-        if (!nova) {
-            printf("Erro: Falha ao alocar memória para a nova antena.\n");
-            return NULL;
-        }
-
-        nova->frequencia = freq;
-        nova->x = x;
-        nova->y = y;
-        nova->next = NULL;
-
-        return nova;
+Antena *criarAntena(char freq, int x, int y)
+{
+    Antena *nova = (Antena *)malloc(sizeof(Antena));
+    if (!nova)
+    {
+        printf("Erro: Falha ao alocar memória para a nova antena.\n");
+        return NULL;
     }
 
-Antena* encontrarAntenaPorCoordenadas(Antena* lista, int x, int y) {
-    if (!lista) {
+    nova->frequencia = freq;
+    nova->x = x;
+    nova->y = y;
+    nova->next = NULL;
+
+    return nova;
+}
+
+Antena *encontrarAntenaPorCoordenadas(Antena *lista, int x, int y)
+{
+    if (!lista)
+    {
         printf("Erro: A lista de antenas está vazia.\n");
         return NULL;
     }
 
-    Antena* atual = lista;
-    while (atual) {
-        if (atual->x == x && atual->y == y) {
+    Antena *atual = lista;
+    while (atual)
+    {
+        if (atual->x == x && atual->y == y)
+        {
             return atual; // Retorna a antena encontrada
         }
         atual = atual->next;
@@ -53,23 +59,26 @@ Antena* encontrarAntenaPorCoordenadas(Antena* lista, int x, int y) {
     return NULL; // Retorna NULL se a antena não for encontrada
 }
 
-Antena* selecionarAntena(Antena* lista, int linha, int coluna) {
+Antena *selecionarAntena(Antena *lista, int linha, int coluna)
+{
     int x, y;
     char f; // ignorado
-    if (recolherDadosAntena(&f, &x, &y, linha, coluna) == false) {
+    if (recolherDadosAntena(&f, &x, &y, linha, coluna) == false)
+    {
         printf("Erro ao recolher os dados da antena.\n");
         return NULL;
     }
 
-    Antena* antenaEncontrada = encontrarAntenaPorCoordenadas(lista, x, y);
-    if (!antenaEncontrada) {
-        printf("Antena com frequência '%c' e coordenadas (%d, %d) não encontrada.\n", f, x, y);
+    Antena *antenaEncontrada = encontrarAntenaPorCoordenadas(lista, x, y);
+    if (!antenaEncontrada)
+    {
+        return NULL;
     }
     return antenaEncontrada;
 }
 /**
  * @brief Insere uma antena na lista.
- * 
+ *
  * @param head Ponteiro para o ponteiro da lista de antenas.
  * @param freq Frequência da antena.
  * @param x Coordenada X da antena.
@@ -77,11 +86,14 @@ Antena* selecionarAntena(Antena* lista, int linha, int coluna) {
  * @return true Se a antena foi inserida com sucesso.
  * @return false Se já existe uma antena na mesma posição ou ocorreu um erro.
  */
-Antena* inserirAntena(Antena* lista, char freq, int x, int y) {
+Antena *inserirAntena(Antena *lista, char freq, int x, int y)
+{
     // Verifica se já existe uma antena na mesma posição
-    Antena* atual = lista;
-    while (atual) {
-        if (atual->x == x && atual->y == y) {
+    Antena *atual = lista;
+    while (atual)
+    {
+        if (atual->x == x && atual->y == y)
+        {
             printf("Erro: Já existe uma antena na posição (%d, %d).\n", x, y);
             return lista; // Retorna a lista sem alterações
         }
@@ -89,8 +101,9 @@ Antena* inserirAntena(Antena* lista, char freq, int x, int y) {
     }
 
     // Cria uma nova antena
-    Antena* nova = criarAntena(freq, x, y);
-    if (!nova) {
+    Antena *nova = criarAntena(freq, x, y);
+    if (!nova)
+    {
         return lista; // Retorna a lista sem alterações em caso de erro
     }
 
@@ -101,14 +114,14 @@ Antena* inserirAntena(Antena* lista, char freq, int x, int y) {
 
 /**
  * @brief Remove uma antena da lista.
- * 
+ *
  * @param head Ponteiro para o ponteiro da lista de antenas.
  * @param x Coordenada X da antena a ser removida.
  * @param y Coordenada Y da antena a ser removida.
  * @return true Se a antena foi removida com sucesso.
  * @return false Se a antena não foi encontrada ou ocorreu um erro.
  */
-Antena* eliminarAntena(Antena* lista, int x, int y) {
+Antena* eliminarAntena(Antena* lista, int x, int y, Nefasto* listaNefastos) {
     if (!lista) {
         printf("Erro: A lista de antenas está vazia.\n");
         return NULL;
@@ -126,11 +139,15 @@ Antena* eliminarAntena(Antena* lista, int x, int y) {
                 lista = atual->next; // Atualiza o início da lista
             }
 
+            // Remove referências à antena na lista de efeitos nefastos
+            listaNefastos = removerEfeitosPorAntena(listaNefastos, atual);
+
             // Imprime os dados da antena antes de liberar a memória
             printf("Antena removida: Frequência '%c', Coordenadas (%d, %d)\n", atual->frequencia, atual->x, atual->y);
 
             // Libera a memória da antena
             free(atual);
+
             return lista;
         }
 
@@ -143,7 +160,7 @@ Antena* eliminarAntena(Antena* lista, int x, int y) {
 }
 /**
  * @brief Solicita ao usuário os dados de uma antena.
- * 
+ *
  * @param freq Ponteiro para armazenar a frequência da antena.
  * @param x Ponteiro para armazenar a coordenada X.
  * @param y Ponteiro para armazenar a coordenada Y.
@@ -153,22 +170,38 @@ Antena* eliminarAntena(Antena* lista, int x, int y) {
 bool recolherDadosAntena(char *freq, int *x, int *y, int linha, int coluna)
 {
     // Solicita a frequência da antena ao usuário
-    if(!freq || !x || !y) return false;
+    if (!freq || !x || !y)
+        return false;
     do
     {
-        printf("Digite a frequência da antena (A-Z, a-z, 0-9): ");
+        printf("Digite a frequência da antena (A-Z, a-z): \n 0 - Voltar para menu: ");
         scanf(" %c", freq);
-        if (!((*freq >= 'A' && *freq <= 'Z') || (*freq >= 'a' && *freq <= 'z') || (*freq >= '0' && *freq <= '9')))
+        if (*freq == '0')
+        {
+            return false; // Retorna falso se o usuário escolher voltar
+        }
+        else if (!((*freq >= 'A' && *freq <= 'Z') || (*freq >= 'a' && *freq <= 'z')))
         {
             printf("Frequência inválida! Deve ser uma letra (A-Z, a-z) ou um número (0-9).\n");
         }
-    } while (!((*freq >= 'A' && *freq <= 'Z') || (*freq >= 'a' && *freq <= 'z') || (*freq >= '0' && *freq <= '9')));
+    } while (!((*freq >= 'A' && *freq <= 'Z') || (*freq >= 'a' && *freq <= 'z')));
 
     // Solicita a coordenada X da antena ao usuário
     do
     {
-        printf("Digite a posição X da antena (0 a %d): ", coluna - 1);
-        scanf("%d", x);
+        printf("Digite a posição X da antena (0 a %d) ou 0 para voltar: ", coluna - 1);
+        if (scanf("%d", x) != 1)
+        {
+            printf("Entrada inválida! Por favor, insira um número.\n");
+            while (getchar() != '\n')
+                ; // Limpa o buffer de entrada
+            continue;
+        }
+        if (*x == 0)
+        {
+            printf("Operação cancelada pelo usuário.\n");
+            return false; // Voltar atrás
+        }
         if (*x < 0 || *x >= coluna)
         {
             printf("Posição X inválida! Deve estar entre 0 e %d.\n", coluna - 1);
@@ -178,8 +211,19 @@ bool recolherDadosAntena(char *freq, int *x, int *y, int linha, int coluna)
     // Solicita a coordenada Y da antena ao usuário
     do
     {
-        printf("Digite a posição Y da antena (0 a %d): ", linha - 1);
-        scanf("%d", y);
+        printf("Digite a posição Y da antena (0 a %d) ou 0 para voltar: ", linha - 1);
+        if (scanf("%d", y) != 1)
+        {
+            printf("Entrada inválida! Por favor, insira um número.\n");
+            while (getchar() != '\n')
+                ; // Limpa o buffer de entrada
+            continue;
+        }
+        if (*y == 0)
+        {
+            printf("Operação cancelada pelo usuário.\n");
+            return false; // Voltar atrás
+        }
         if (*y < 0 || *y >= linha)
         {
             printf("Posição Y inválida! Deve estar entre 0 e %d.\n", linha - 1);
@@ -188,10 +232,9 @@ bool recolherDadosAntena(char *freq, int *x, int *y, int linha, int coluna)
     return true;
 }
 
-
 /**
  * @brief Lê antenas de um arquivo e as insere na lista.
- * 
+ *
  * @param nomeFicheiro Nome do arquivo a ser lido.
  * @param lista Ponteiro para a lista de antenas.
  * @param linha Ponteiro para armazenar o número de linhas da matriz.
@@ -206,7 +249,7 @@ Antena *lerAntenasDoFicheiro(const char *nomeFicheiro, int *linha, int *coluna)
         printf("Erro ao abrir o ficheiro '%s'\n", nomeFicheiro);
         return NULL;
     }
-    Antena* lista = NULL;
+    Antena *lista = NULL;
     char buffer[256];
     int y = 0;
     int maxColuna = 0;
@@ -273,17 +316,20 @@ Antena *lerAntenasDoFicheiro(const char *nomeFicheiro, int *linha, int *coluna)
 
 /**
  * @brief Imprime a lista de antenas.
- * 
+ *
  * @param lista Ponteiro para a lista de antenas.
  */
-bool listarAntenas(Antena* lista) {
-    if (!lista) {
+bool listarAntenas(Antena *lista)
+{
+    if (!lista)
+    {
         printf("Lista vazia!\n");
         return false;
     }
 
-    Antena* atual = lista;
-    while (atual) {
+    Antena *atual = lista;
+    while (atual)
+    {
         printf("Frequência: %c, Coordenadas: (%d, %d)\n", atual->frequencia, atual->x, atual->y);
         atual = atual->next;
     }
@@ -292,15 +338,11 @@ bool listarAntenas(Antena* lista) {
 
 /**
  * @brief Libera a memória da lista de antenas.
- * 
+ *
  * @param lista Ponteiro para a lista de antenas.
  */
-bool liberarAntenas(Antena *lista)
+Antena* liberarAntenas(Antena *lista)
 {
-    if (!lista)
-    {
-        return false;
-    }
     Antena *atual = lista;
     while (atual)
     {
@@ -308,5 +350,5 @@ bool liberarAntenas(Antena *lista)
         atual = atual->next;
         free(temp);
     }
-    return true;
+    return NULL;
 }

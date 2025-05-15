@@ -22,15 +22,13 @@ int main()
     Antena* lista = NULL;
     Nefasto* efeitos = NULL;
     int linha = 0, coluna = 0;
-    bool primeiraVez = true; 
-
     int opcao;
     do
     {
         mostrarMenuPrincipal();
-        printf("Escolha uma opção: ");
-        scanf("%d", &opcao);
-        processarOpcao(opcao, &lista, &efeitos, &linha, &coluna, &primeiraVez);
+        opcao = obterOpcaoMenu();
+        
+        processarOpcao(opcao, lista, efeitos, &linha, &coluna);
     } while (opcao != 3);
 
     return 0;
