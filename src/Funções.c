@@ -27,8 +27,7 @@ void limpartela()
 void limparBufferEntrada()
 {
     int c;
-    while ((c = getchar()) != '\n' && c != EOF)
-        ;
+    while ((c = getchar()) != '\n' && c != EOF);
 }
 
 /**
@@ -103,7 +102,7 @@ int executarMenuSecundario(Antena *lista, Nefasto *efeitos, int *linha, int *col
 /**
  * @brief Aguarda o usuário pressionar Enter para continuar.
  */
-void esperarEnter(ListaMensagem *listaMensagem, int idioma)
+int esperarEnter(ListaMensagem *listaMensagem, int idioma)
 {
     mostrarMensagem(listaMensagem, idioma, 500);
     while (getchar() != '\n')
@@ -189,6 +188,7 @@ Antena *processarOpcaoSecundaria(int opcao, Antena *lista, Nefasto *efeitos, int
         limpartela();
         Grafo *grafo = NULL;
         executarMenuGrafo(grafo, lista, linha, coluna, listaMensagens, idioma);
+        libertarGrafo(grafo);
         break;
 
     default:
@@ -215,7 +215,7 @@ Antena *processarOpcaoSecundaria(int opcao, Antena *lista, Nefasto *efeitos, int
  * @param linha Ponteiro para o número de linhas da matriz.
  * @param coluna Ponteiro para o número de colunas da matriz.
  */
-void processarOpcao(int opcao, Antena *lista, Nefasto *efeitos, int *linha, int *coluna, ListaMensagem *listaMensagens, int idioma)
+Antena* processarOpcao(int opcao, Antena *lista, Nefasto *efeitos, int *linha, int *coluna, ListaMensagem *listaMensagens, int idioma)
 {
     switch (opcao)
     {
@@ -256,8 +256,20 @@ void processarOpcao(int opcao, Antena *lista, Nefasto *efeitos, int *linha, int 
         mostrarMensagem(listaMensagens, idioma, 404);
         break;
     }
+    return NULL;
 }
 
+/**
+ * @brief Executa o menu relacionado com o grafo, permitindo visualização e execução de algoritmos como BFS e DFS.
+ *
+ * @param grafo Ponteiro para o grafo a ser utilizado.
+ * @param lista Lista de antenas.
+ * @param linha Número de linhas da matriz.
+ * @param coluna Número de colunas da matriz.
+ * @param listaMensagens Lista de mensagens para suporte multiidioma.
+ * @param idioma Índice do idioma seleccionado.
+ * @return Grafo* Grafo possivelmente atualizado.
+ */
 Grafo *executarMenuGrafo(Grafo *grafo, Antena *lista, int linha, int coluna, ListaMensagem *listaMensagens, int idioma)
 {
     Antena *antena, *antena2;

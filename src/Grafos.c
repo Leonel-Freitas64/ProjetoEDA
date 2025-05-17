@@ -1,5 +1,5 @@
-#include "Estruturas.h"
-#include "Funções.h"
+#include "../resources/Funções.h"
+#include "../resources/Estruturas.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -71,6 +71,7 @@ int adicionarAresta(Grafo *grafo, Antena *a, Antena *b)
     return 0;
 }
 
+
 Grafo *construirGrafo(Antena *lista, ListaMensagem *listamensagens,int idioma )
 {
     Grafo *grafo = malloc(sizeof(Grafo));
@@ -117,10 +118,10 @@ Grafo *construirGrafo(Antena *lista, ListaMensagem *listamensagens,int idioma )
     return grafo;
 }
 
-void imprimirGrafo(Grafo* grafo, Antena* lista, int linha, int coluna, ListaMensagem* listaMensagens, int idioma) {
+int imprimirGrafo(Grafo* grafo, Antena* lista, int linha, int coluna, ListaMensagem* listaMensagens, int idioma) {
     if (!grafo || !lista) {
         mostrarMensagem(listaMensagens, idioma, 902); // Código 1000: "Erro: Grafo ou lista de antenas é nulo."
-        return;
+        return 0;
     }
 
     mostrarMensagem(listaMensagens, idioma, 903); // Código 1001: "Grafo:\n"
@@ -150,9 +151,10 @@ void imprimirGrafo(Grafo* grafo, Antena* lista, int linha, int coluna, ListaMens
         printf("\n"); // Nova linha para o próximo vértice
         v = v->next;
     }
+    return 1;
 }
 
-void detetarIntersecoes(Grafo *grafo, ListaMensagem *listamensagens, int idioma)
+int detetarIntersecoes(Grafo *grafo, ListaMensagem *listamensagens, int idioma)
 {
     float pontosX[1000], pontosY[1000];
     char freq1[1000], freq2[1000];
@@ -269,6 +271,13 @@ int dfs_visitado(Vertice *vertice, Antena *alvo, Antena *visitados, int *visitad
     return 0;
 }
 
+/**
+ * @brief Executa a pesquisa em profundidade (DFS) a partir de uma antena.
+ *
+ * @param grafo Ponteiro para o grafo.
+ * @param origem Antena de origem para iniciar a pesquisa.
+ * @return int Número de antenas visitadas.
+ */
 int dfs(Grafo* grafo, Antena* origem, ListaMensagem* listaMensagens, int idioma) {
     if (!grafo || !origem) {
         mostrarMensagem(listaMensagens, idioma, 1000); // Código 1000: "Erro: Grafo ou antena de origem são nulos."
@@ -312,7 +321,13 @@ int dfs(Grafo* grafo, Antena* origem, ListaMensagem* listaMensagens, int idioma)
     }
     return 1;
 }
-
+/**
+ * @brief Executa a pesquisa em largura (BFS) a partir de uma antena.
+ *
+ * @param grafo Ponteiro para o grafo.
+ * @param origem Antena de origem para iniciar a pesquisa.
+ * @return int Número de antenas visitadas.
+ */
 int bfs(Grafo *grafo, Antena *origem, ListaMensagem *listaMensagens, int idioma)
 {
     if (!grafo || !origem)
@@ -366,9 +381,9 @@ if (mensagem)
     return 1;
 }
 
-void dfsCaminhosRec(Vertice* atual, Antena* destino, int* visitado, int* caminhoX, int* caminhoY, int profundidade) {
+int dfsCaminhosRec(Vertice* atual, Antena* destino, int* visitado, int* caminhoX, int* caminhoY, int profundidade) {
     if (!atual || !destino) {
-        return;
+        return 0;
     }
 
     int index = atual->antena->x * 100 + atual->antena->y;
@@ -385,7 +400,7 @@ void dfsCaminhosRec(Vertice* atual, Antena* destino, int* visitado, int* caminho
         }
         printf("\n");
         visitado[index] = 0; // Desmarca o vértice antes de retornar
-        return;
+        return 1;
     }
 
     // Explora os vértices adjacentes
@@ -401,8 +416,16 @@ void dfsCaminhosRec(Vertice* atual, Antena* destino, int* visitado, int* caminho
     }
 
     visitado[index] = 0; // Desmarca o vértice
+    return 0;
 }
 
+/**
+ * @brief Mostra todos os caminhos possíveis entre duas antenas no grafo, utilizando DFS recursivo.
+ *
+ * @param grafo Ponteiro para o grafo onde o caminho será procurado.
+ * @param origem Antena de origem.
+ * @param destino Antena de destino.
+ */
 bool mostrarCaminhos(Grafo* grafo, Antena* origem, Antena* destino) {
     if (!grafo || !origem || !destino) {
         return false;

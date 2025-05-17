@@ -8,9 +8,8 @@
  * @copyright Copyright (c) 2025
  * 
  */
-#include <stdio.h>
-#include <stdlib.h>
-#include "Funções.h"
+#include "../resources/Funções.h"
+#include "../resources/Estruturas.h"
 
 /**
  * @brief Função principal do programa.

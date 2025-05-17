@@ -29,23 +29,28 @@ int adicionarMensagem(ListaMensagem *idioma, int codigo, const char *texto) {
  * @param idioma Índice do idioma.
  * @param codigo Código da mensagem.
  */
-void mostrarMensagem(ListaMensagem* lista, int idioma, int codigo) {
-    ListaMensagem *idiomaLista = obterIdiomaPorIndice(lista, idioma);
+bool mostrarMensagem(ListaMensagem *lista, int idioma, int codigo) {
+    ListaMensagem *idiomaLista = lista;
+    while (idiomaLista && idiomaLista->idioma != idioma) {
+        idiomaLista = idiomaLista->next;
+    }
+
     if (!idiomaLista) {
         printf("Idioma não encontrado.\n");
-        return;
+        return false;
     }
 
     Mensagem *mensagemAtual = idiomaLista->mensagens;
     while (mensagemAtual) {
         if (mensagemAtual->codigo == codigo) {
             printf("%s\n", mensagemAtual->texto);
-            return;
+            return true;
         }
         mensagemAtual = mensagemAtual->next;
     }
 
     printf("Mensagem não encontrada.\n");
+    return false;
 }
 
 ListaMensagem *obterIdiomaPorIndice(ListaMensagem *lista, int idioma)
@@ -104,31 +109,6 @@ Mensagem *obterMensagem(ListaMensagem *lista, int idioma, int codigo) {
     return NULL; // Mensagem não encontrada
 }
 
-void liberarListaMensagem(ListaMensagem *lista)
-{
-    while (lista)
-    {
-        Mensagem *mensagemAtual = lista->mensagens;
-
-        // Libera todas as mensagens do idioma
-        while (mensagemAtual)
-        {
-            Mensagem *tempMensagem = mensagemAtual;
-            mensagemAtual = mensagemAtual->next;
-            free(tempMensagem);
-        }
-
-        // Libera o idioma
-        ListaMensagem *tempLista = lista;
-        lista = lista->next;
-        free(tempLista);
-    }
-}
-
-ListaMensagem *inicializarListaMensagem()
-{
-    return NULL; // Inicializa a lista como vazia
-}
 
 ListaMensagem* carregarMensagens(const char* caminho) {
     FILE* arquivo = fopen(caminho, "r");
