@@ -22,22 +22,14 @@ int main()
     Antena* lista = NULL;
     Nefasto* efeitos = NULL;
     int linha = 0, coluna = 0;
-    bool primeiraVez = true; 
-
     int opcao;
+    ListaMensagem* listaMensagens = carregarMensagens("mensagens.txt");
+    int idioma = selecionarIdioma(listaMensagens);
     do
     {
-        mostrarMenuPrincipal();
-        printf("Escolha uma opção: ");
-        scanf("%d", &opcao);
-        processarOpcao(opcao, &lista, &efeitos, &linha, &coluna, &primeiraVez);
+        opcao = mostrarMenuPrincipal(listaMensagens, idioma);   
+        processarOpcao(opcao, lista, efeitos, &linha, &coluna, listaMensagens, idioma);
     } while (opcao != 3);
-
-    // Libera memória ao sair
-    if (lista)
-        liberarAntenas(lista);
-    if (efeitos)
-        liberarEfeitosNefastos(&efeitos);
 
     return 0;
 }

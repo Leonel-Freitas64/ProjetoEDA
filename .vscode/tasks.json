@@ -4,7 +4,7 @@
       {
         "label": "Compilar ProjetoEDA",
         "type": "shell",
-        "command": "gcc",
+        "command": "clang",
         "args": [
           "-g",
           "src/main.c",
@@ -12,6 +12,9 @@
           "src/Binario.c",
           "src/Antenas.c",
           "src/Nefasto.c",
+          "src/Grafos.c",
+          "src/Menu.c",
+          "src/Mensagem.c",
           "-Iresources",
           "-o",
           "bin/main"

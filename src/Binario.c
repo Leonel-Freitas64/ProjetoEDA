@@ -21,14 +21,13 @@
  * @param altura Número de linhas da matriz.
  * @param nomeArquivo Nome do arquivo binário onde os dados serão salvos.
  */
-void salvarEmBinario(Antena *lista, Nefasto *efeitos, int largura, int altura, const char *nomeArquivo)
+bool salvarEmBinario(Antena* lista, int largura, int altura, const char* nomeArquivo)
 {
     // Abre o arquivo binário para escrita
-    FILE *f = fopen(nomeArquivo, "wb");
+    FILE* f = fopen(nomeArquivo, "wb");
     if (!f)
     {
-        printf("Erro ao abrir o ficheiro '%s'\n", nomeArquivo);
-        return;
+        return false;
     }
 
     // Salva o número de linhas e colunas da matriz
@@ -36,13 +35,13 @@ void salvarEmBinario(Antena *lista, Nefasto *efeitos, int largura, int altura, c
     fwrite(&largura, sizeof(int), 1, f);
 
     // Salva as antenas na lista
-    Antena *currentAntena = lista;
-    while (currentAntena)
+    Antena* atualAntena = lista;
+    while (atualAntena)
     {
-        fwrite(&currentAntena->frequencia, sizeof(char), 1, f); // Frequência da antena
-        fwrite(&currentAntena->x, sizeof(int), 1, f);          // Coordenada X
-        fwrite(&currentAntena->y, sizeof(int), 1, f);          // Coordenada Y
-        currentAntena = currentAntena->next;
+        fwrite(&atualAntena->frequencia, sizeof(char), 1, f); // Frequência da antena
+        fwrite(&atualAntena->x, sizeof(int), 1, f);          // Coordenada X
+        fwrite(&atualAntena->y, sizeof(int), 1, f);          // Coordenada Y
+        atualAntena = atualAntena->next;
     }
 
     // Escreve um marcador de fim de lista de antenas
@@ -51,6 +50,7 @@ void salvarEmBinario(Antena *lista, Nefasto *efeitos, int largura, int altura, c
 
     // Fecha o arquivo
     fclose(f);
+    return true;
 }
 
 /**
@@ -61,28 +61,16 @@ void salvarEmBinario(Antena *lista, Nefasto *efeitos, int largura, int altura, c
  * @param largura Ponteiro para armazenar o número de colunas da matriz.
  * @param altura Ponteiro para armazenar o número de linhas da matriz.
  * @param nomeArquivo Nome do arquivo binário de onde os dados serão lidos.
+ * @return Nefasto* Retorna o ponteiro para a lista de efeitos nefastos atualizada.
  */
-void lerDeBinario(Antena **lista, Nefasto **efeitos, int *largura, int *altura, const char *nomeArquivo)
-{
+Antena* lerDeBinario(int* largura, int* altura, const char* nomeArquivo)
+{   
+    Antena* lista = NULL;
     // Abre o arquivo binário para leitura
-    FILE *f = fopen(nomeArquivo, "rb");
+    FILE* f = fopen(nomeArquivo, "rb");
     if (!f)
     {
-        printf("Erro ao abrir o ficheiro '%s'\n", nomeArquivo);
-        return;
-    }
-
-    // Libera a memória da lista de antenas existente, se necessário
-    if (*lista)
-    {
-        liberarAntenas(*lista);
-        *lista = NULL;
-    }
-
-    // Libera a memória da lista de efeitos nefastos existente, se necessário
-    if (*efeitos)
-    {
-        liberarEfeitosNefastos(efeitos);
+        return NULL; // Retorna NULL se o arquivo não puder ser aberto
     }
 
     // Lê o número de linhas e colunas da matriz
@@ -96,23 +84,19 @@ void lerDeBinario(Antena **lista, Nefasto **efeitos, int *largura, int *altura, 
         int x, y;
 
         // Lê a frequência da antena
-        if (fread(&freq, sizeof(char), 1, f) != 1)
-            break;
-
-        // Verifica o marcador de fim de lista de antenas
-        if (freq == '\0')
+        if (fread(&freq, sizeof(char), 1, f) != 1 || freq == '\0')
             break;
 
         // Lê as coordenadas X e Y da antena
-        if (fread(&x, sizeof(int), 1, f) != 1)
-            break;
-        if (fread(&y, sizeof(int), 1, f) != 1)
-            break;
+        fread(&x, sizeof(int), 1, f);
+        fread(&y, sizeof(int), 1, f);
 
         // Insere a antena na lista
-        inserirAntena(lista, freq, x, y);
+        lista = inserirAntena(lista, freq, x, y);
     }
+
 
     // Fecha o arquivo
     fclose(f);
+    return lista;
 }
