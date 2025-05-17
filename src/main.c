@@ -23,12 +23,12 @@ int main()
     Nefasto* efeitos = NULL;
     int linha = 0, coluna = 0;
     int opcao;
+    ListaMensagem* listaMensagens = carregarMensagens("mensagens.txt");
+    int idioma = selecionarIdioma(listaMensagens);
     do
     {
-        mostrarMenuPrincipal();
-        opcao = obterOpcaoMenu();
-        
-        processarOpcao(opcao, lista, efeitos, &linha, &coluna);
+        opcao = mostrarMenuPrincipal(listaMensagens, idioma);   
+        processarOpcao(opcao, lista, efeitos, &linha, &coluna, listaMensagens, idioma);
     } while (opcao != 3);
 
     return 0;

@@ -1,0 +1,109 @@
+PT;1;Escolha uma opção:
+EN;1;Choose an option:
+
+PT;2;Escolha o modo de impressão da matriz (1 apenas antenas ou 2 apenas nefastos)
+EN;2;Teste
+
+
+
+PT;404;Opção inválida. Por favor, escolha uma opção válida.
+EN;404;Invalid option! Please enter a valid option.
+
+PT;405;Dados Invalidos
+EN;405;Invalid data
+
+PT;406;Erro a ler o ficheiro
+EN;406;Error reading from file
+
+PT;407;Erro: Já existe uma antena nessa posição 
+EN;407;Error: There's a antena already in that posisiton
+
+PT;500;Pressione enter para continuar...
+EN;500;Press enter to continue...
+
+PT;600;Sobreposição detectada em (%d, %d): já existia '%c' nessas coordenadas\n
+EN;600;Overlap detected at (%d, %d): '%c' already existed at these coordinates\n
+
+PT;700;Digite a frequência da antena (A-Z, a-z): \n 0 - Voltar para menu:
+EN;700;Enter the antenna frequency (A-Z, a-z): \n 0 - Return to menu:
+
+PT;701;Frequência inválida! Deve ser uma letra (A-Z, a-z).
+EN;701;Invalid frequency! It must be a letter (A-Z, a-z).
+
+PT;702;Digite a coordenada X da antena (0 e %d): 
+EN;702;Enter the X coordinate of the antenna (0 and %d): 
+
+PT;703;Coordenada X inválida! Deve estar entre 0 e %d\n
+EN;703;Invalid X coordinate! It must be between 0 and %d\n
+
+PT;704;Digite a coordenada Y da antena (0 e %d): 
+EN;704;Enter the Y coordinate of the antenna (0 and %d): 
+
+PT;705;Coordenada Y inválida! Deve estar entre 0 e %d\n
+EN;705;Invalid Y coordinate! It must be between 0 and %d\n
+
+PT;100;Menu principal:\n1. Ler arquivo binário\n2. Ler matriz\n0. Sair\n
+EN;100;Main menu:\n1. Read binary file\n2. Read matrix\n0. Exit\n
+
+PT;200;Menu secundário:\n1. Adicionar antena\n2. Eliminar antena\n3. Verificar efeitos nefastos\n4. Imprimir matriz\n5. Construir grafo\n0. Voltar ao menu principal\n
+EN;200;Secondary menu:\n1. Add antenna\n2. Remove antenna\n3. Check harmful effects\n4. Print matrix\n5. Build graph\n0. Return to main menu\n
+
+PT;300;Menu grafo:\n1. Mostrar grafo\n2. Executar BFS\n3. Executar DFS\n4. Mostrar caminhos entre duas antenas\n5. Detetar interseções entre grafos\n0. Voltar ao menu\n
+EN;300;Graph menu:\n1. Show graph\n2. Execute BFS\n3. Execute DFS\n4. Show paths between two antennas\n5. Detect intersections between graphs\n0. Return to menu\n
+
+PT;400;Saindo...
+EN;400;Leaving...
+
+PT;800;Lista vazia!
+EN;800;Empty list!
+
+PT;801;Frequência: %c, Coordenadas: (%d, %d)\n
+EN;801;Frequency: %c, Coordinates: (%d, %d)\n
+
+PT;802;Erro: Já existe uma antena na posição (%d, %d).\n
+EN;802;Error: An antenna already exists at position (%d, %d).\n
+
+PT;803;Erro: A lista de antenas está vazia.\n
+EN;803;Error: The antenna list is empty.\n
+
+PT;804;Antena com coordenadas (%d, %d) não encontrada.\n
+EN;804;Antenna with coordinates (%d, %d) not found.\n
+
+PT;805;Antena removida: Frequência '%c', com as coordenadas (%d, %d)\n
+EN;805;Antenna removed: Frequency '%c', with coordinates (%d, %d)\n
+
+PT;806;Antena não encontrada
+EN;806;Antenna not found
+
+PT;900;[BFS] Visitado: %c (%d, %d)\n
+EN;900;[BFS] Visited: %c (%d, %d)\n
+
+PT;901;Erro ao adicionar aresta entre (%d,%d) e (%d,%d)\n
+EN;901;Error adding aresta between (%d,%d) and (%d,%d)\n
+
+PT;902;Erro: Grafo ou lista de antenas é nulo.\n
+EN;902;Error: Graph or antenna list is null.\n
+
+PT;903;Grafo:\n
+EN;903;Graph:\n
+
+PT;904;Antena de frequencia %c: (%d, %d) --- 
+EN;904;Antenna with frequency %c: (%d, %d) --- 
+
+PT;905;Antena (%d, %d)
+EN;905;Antenna (%d, %d)
+
+PT;906;Caminho: De '%c' em (%d, %d) para '%c' em (%d, %d)\n
+EN;906;Path: From '%c' at (%d, %d) to '%c' at (%d, %d)\n
+
+PT;907;[DFS] Visitado: '%c' em (%d, %d)\n
+EN;907;[DFS] Visited: '%c' at (%d, %d)\n
+
+PT;908;Interseção entre '%c' e '%c' aproximadamente em (%.2f, %.2f)\n
+EN;908;Intersection detected between '%c' and '%c' approximately at (%.2f, %.2f)\n
+
+PT;1100;Não existem efeitos nefastos registrados.\n
+EN;1100;No nefarious effects registered.\n
+
+PT;1101;Efeito Nefasto entre '%c' em (%d, %d) e (%d, %d)\n
+EN;1101;Nefarious effect between '%c' at (%d, %d) and (%d, %d)\n

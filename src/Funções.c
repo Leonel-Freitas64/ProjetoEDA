@@ -24,37 +24,11 @@ void limpartela()
     system("cls||clear");
 }
 
-/**
- * @brief Mostra o menu principal do programa.
- *
- * Este menu apresenta as opções principais disponíveis para o usuário.
- * Ele é exibido no início do programa e após o retorno do menu secundário.
- */
-void mostrarMenuPrincipal()
+void limparBufferEntrada()
 {
-    printf("Menu Principal:\n");
-    printf("1. Ler arquivo binário\n"); // Opção para carregar dados de um arquivo binário.
-    printf("2. Ler matriz\n");          // Opção para carregar dados de um arquivo de texto.
-    printf("0. Sair\n");                // Opção para encerrar o programa.
-}
-
-/**
- * @brief Mostra o menu secundário do programa.
- *
- * Este menu é exibido após o carregamento dos dados e permite ao usuário
- * realizar operações específicas, como adicionar ou remover antenas, verificar
- * efeitos nefastos, e redimensionar a matriz.
- */
-void mostrarMenuSecundario()
-{
-    printf("Menu Secundário:\n");
-    printf("1. Adicionar antena\n");
-    printf("2. Eliminar antena\n");
-    printf("3. Verificar Efeitos Nefasto\n");
-    printf("4. Imprimir Matriz\n");
-    // printf("3. Redimensionar a matriz. POR IMPLEMENTAR\n\n");
-    printf("5. Construir grafo\n\n");
-    printf("0. Voltar ao menu principal\n");
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
 }
 
 /**
@@ -62,14 +36,16 @@ void mostrarMenuSecundario()
  *
  * @return int A opção escolhida pelo usuário.
  */
-int obterOpcaoMenu()
+int mostrarMenuPrincipal(ListaMensagem *listaMensagens, int idioma)
 {
+    limpartela();
+    mostrarMensagem(listaMensagens, idioma, 100);
     int opcao;
     char buffer[256]; // Buffer para capturar entradas inválidas
 
-    while (true)
+    while (1)
     {
-        printf("Escolha uma opção: ");
+        mostrarMensagem(listaMensagens, idioma, 1);
         if (fgets(buffer, sizeof(buffer), stdin))
         {
             // Tenta converter a entrada para um número inteiro
@@ -81,18 +57,20 @@ int obterOpcaoMenu()
                 }
             }
         }
-        printf("Opção inválida! Por favor, insira um número entre 1 e 3.\n");
+        limparBufferEntrada();
+        mostrarMensagem(listaMensagens, idioma, 404);
     }
 }
 
-int obterOpcaoMenuSecundario()
+int mostrarMenuSecundario(ListaMensagem *listaMensagem, int idioma)
 {
+    mostrarMensagem(listaMensagem, idioma, 200);
     int opcao;
     char buffer[256]; // Buffer para capturar entradas inválidas
 
     while (true)
     {
-        printf("Escolha uma opção: ");
+        mostrarMensagem(listaMensagem, idioma, 1);
         if (fgets(buffer, sizeof(buffer), stdin))
         {
             // Tenta converter a entrada para um número inteiro
@@ -104,20 +82,19 @@ int obterOpcaoMenuSecundario()
                 }
             }
         }
-        printf("Opção inválida! Por favor, insira um número entre 0 e 5.\n");
+        mostrarMensagem(listaMensagem, idioma, 404);
     }
 }
 
-int executarMenuSecundario(Antena *lista, Nefasto *efeitos, int *linha, int *coluna)
+int executarMenuSecundario(Antena *lista, Nefasto *efeitos, int *linha, int *coluna, ListaMensagem *listaMensagens, int idioma)
 {
     efeitos = calcularEfeitoNefasto(lista, *linha, *coluna);
-    imprimirMatrizAntenas(lista, efeitos, *coluna, *linha, 3);
+    imprimirMatrizAntenas(lista, efeitos, *coluna, *linha, 3, listaMensagens, idioma);
     int opcaoSecundaria;
     do
     {
-        mostrarMenuSecundario();
-        opcaoSecundaria = obterOpcaoMenuSecundario();
-        lista = processarOpcaoSecundaria(opcaoSecundaria, lista, efeitos, *linha, *coluna);
+        opcaoSecundaria = mostrarMenuSecundario(listaMensagens, idioma);
+        lista = processarOpcaoSecundaria(opcaoSecundaria, lista, efeitos, *linha, *coluna, listaMensagens, idioma);
     } while (opcaoSecundaria != 0);
     lista = liberarAntenas(lista);
     efeitos = liberarEfeitosNefastos(efeitos);
@@ -126,9 +103,9 @@ int executarMenuSecundario(Antena *lista, Nefasto *efeitos, int *linha, int *col
 /**
  * @brief Aguarda o usuário pressionar Enter para continuar.
  */
-void esperarEnter()
+void esperarEnter(ListaMensagem *listaMensagem, int idioma)
 {
-    printf("Pressione Enter para continuar...");
+    mostrarMensagem(listaMensagem, idioma, 500);
     while (getchar() != '\n')
         ;      // Limpa o buffer de entrada
     getchar(); // Aguarda o Enter
@@ -145,7 +122,7 @@ void esperarEnter()
  * @param linha Número de linhas da matriz.
  * @param coluna Número de colunas da matriz.
  */
-Antena *processarOpcaoSecundaria(int opcao, Antena *lista, Nefasto *efeitos, int linha, int coluna)
+Antena *processarOpcaoSecundaria(int opcao, Antena *lista, Nefasto *efeitos, int linha, int coluna, ListaMensagem *listaMensagens, int idioma)
 {
     char freq;       // Variável para armazenar a frequência da antena.
     int x, y;        // Variáveis para armazenar as coordenadas da antena.
@@ -155,23 +132,21 @@ Antena *processarOpcaoSecundaria(int opcao, Antena *lista, Nefasto *efeitos, int
     {
     case 1:
         // Adiciona uma nova antena à lista.
-        if (recolherDadosAntena(&freq, &x, &y, linha, coluna))
+        limparBufferEntrada();
+        if (recolherDadosAntena(listaMensagens, idioma, &freq, &x, &y, linha, coluna))
         {
             lista = inserirAntena(lista, freq, x, y);
             efeitos = calcularEfeitoNefasto(lista, linha, coluna);
         }
-        else
-        {
-            // printf("Erro: Dados inválidos para a antena.\n");
-        }
-        esperarEnter();
+        esperarEnter(listaMensagens, idioma);
         break;
 
     case 2:
-        listarAntenas(lista);
-        if (recolherDadosAntena(&freq, &x, &y, linha, coluna))
+        listarAntenas(lista, listaMensagens, idioma);
+        limparBufferEntrada();
+        if (recolherDadosAntena(listaMensagens, idioma, &freq, &x, &y, linha, coluna))
         {
-            lista = eliminarAntena(lista, x, y, efeitos);
+            lista = eliminarAntena(lista, x, y, efeitos, listaMensagens, idioma);
 
             // Libera a lista de efeitos nefastos antes de recalcular
             liberarEfeitosNefastos(efeitos);
@@ -181,49 +156,49 @@ Antena *processarOpcaoSecundaria(int opcao, Antena *lista, Nefasto *efeitos, int
         }
         else
         {
-            printf("Erro: Dados inválidos para a antena.\n");
+            mostrarMensagem(listaMensagens, idioma, 405);
         }
-        esperarEnter();
+        esperarEnter(listaMensagens, idioma);
         break;
 
     case 3:
         // Verifica os efeitos nefastos.
-        listarEfeitosNefastos(efeitos);
-        esperarEnter();
+        listarEfeitosNefastos(efeitos, listaMensagens, idioma);
+        esperarEnter(listaMensagens, idioma);
         break;
 
     case 4:
         // Imprime a matriz de antenas e efeitos nefastos.
         limpartela();
-        printf("Escolha o modo de impressão da matriz (1 apenas antenas ou 2 apenas nefastos): ");
+        mostrarMensagem(listaMensagens, idioma, 2);
         scanf("%d", &opcaomatriz);
 
         if (opcaomatriz == 1 || opcaomatriz == 2)
         {
-            imprimirMatrizAntenas(lista, efeitos, coluna, linha, opcaomatriz);
+            imprimirMatrizAntenas(lista, efeitos, coluna, linha, opcaomatriz, listaMensagens, idioma);
         }
         else
         {
-            printf("Modo de impressão inválido. Tente novamente.\n");
+            mostrarMensagem(listaMensagens, idioma, 404);
         }
-        esperarEnter();
+        esperarEnter(listaMensagens, idioma);
 
         break;
 
     case 5:
         limpartela();
         Grafo *grafo = NULL;
-        executarMenuGrafo(grafo, lista, linha, coluna);
+        executarMenuGrafo(grafo, lista, linha, coluna, listaMensagens, idioma);
         break;
 
     default:
-        printf("Opção inválida. Por favor, escolha uma opção válida.\n");
+        mostrarMensagem(listaMensagens, idioma, 404);
         break;
     }
 
     // Atualiza a matriz e salva os dados em um arquivo binário.
     limpartela();
-    imprimirMatrizAntenas(lista, efeitos, coluna, linha, 3);
+    imprimirMatrizAntenas(lista, efeitos, coluna, linha, 3, listaMensagens, idioma);
     salvarEmBinario(lista, coluna, linha, "../bin/dados.bin");
     return lista;
 }
@@ -240,7 +215,7 @@ Antena *processarOpcaoSecundaria(int opcao, Antena *lista, Nefasto *efeitos, int
  * @param linha Ponteiro para o número de linhas da matriz.
  * @param coluna Ponteiro para o número de colunas da matriz.
  */
-void processarOpcao(int opcao, Antena *lista, Nefasto *efeitos, int *linha, int *coluna)
+void processarOpcao(int opcao, Antena *lista, Nefasto *efeitos, int *linha, int *coluna, ListaMensagem *listaMensagens, int idioma)
 {
     switch (opcao)
     {
@@ -249,11 +224,13 @@ void processarOpcao(int opcao, Antena *lista, Nefasto *efeitos, int *linha, int 
         lista = lerDeBinario(coluna, linha, "../bin/dados.bin");
         if (!lista)
         {
-            printf("Lista vazia ou erro ao ler!\n");
+            mostrarMensagem(listaMensagens, idioma, 406);
         }
         else
         {
-            executarMenuSecundario(lista, efeitos, linha, coluna);
+            limpartela();
+            executarMenuSecundario(lista, efeitos, linha, coluna, listaMensagens, idioma);
+            limparBufferEntrada();
         }
         break;
     case 2:
@@ -261,57 +238,30 @@ void processarOpcao(int opcao, Antena *lista, Nefasto *efeitos, int *linha, int 
         lista = lerAntenasDoFicheiro("matriz.txt", linha, coluna);
         if (!lista)
         {
-            printf("Lista vazia ou erro ao ler!\n");
+            mostrarMensagem(listaMensagens, idioma, 406);
         }
         else
         {
-            executarMenuSecundario(lista, efeitos, linha, coluna);
+            limpartela();
+            executarMenuSecundario(lista, efeitos, linha, coluna, listaMensagens, idioma);
+            limparBufferEntrada();
         }
 
         break;
     case 0:
         // Encerra o programa.
-        printf("Saindo...\n");
+        mostrarMensagem(listaMensagens, idioma, 400);
         exit(0);
     default:
-        printf("Opção inválida!\n");
+        mostrarMensagem(listaMensagens, idioma, 404);
         break;
     }
 }
-/**
- * @brief Executa o menu principal do programa.
- *
- * Esta função exibe o menu principal em um loop até que o usuário escolha sair do programa.
- * Ela chama a função `processarOpcao` para executar as ações correspondentes às opções escolhidas.
- *
- * @param lista Ponteiro para a lista de antenas.
- * @param efeitos Ponteiro para a lista de efeitos nefastos.
- * @param linha Ponteiro para o número de linhas da matriz.
- * @param coluna Ponteiro para o número de colunas da matriz.
- */
-Antena *executarMenu(Antena *lista, Nefasto *efeitos, int *linha, int *coluna)
-{
-    int opcao; // Variável para armazenar a opção escolhida pelo usuário.
-    do
-    {
-        // Exibe o menu principal e solicita a escolha do usuário.
-        mostrarMenuPrincipal();
-        printf("Escolha uma opção: ");
-        scanf("%d", &opcao);
 
-        // Processa a opção escolhida e atualiza a lista de antenas.
-        processarOpcao(opcao, lista, efeitos, linha, coluna);
-    } while (opcao != 3); // Continua até que o usuário escolha sair.
-
-    return lista; // Retorna a lista atualizada.
-}
-
-Grafo *executarMenuGrafo(Grafo *grafo, Antena *lista, int linha, int coluna)
+Grafo *executarMenuGrafo(Grafo *grafo, Antena *lista, int linha, int coluna, ListaMensagem *listaMensagens, int idioma)
 {
     Antena *antena, *antena2;
-    grafo = construirGrafo(lista);
-    imprimirMatrizAntenas(lista, grafo, coluna, linha, 1);
-    imprimirGrafo(grafo, lista, linha, coluna);
+    grafo = construirGrafo(lista, listaMensagens, idioma);
     int opcaografo;
     do
     {
@@ -319,67 +269,69 @@ Grafo *executarMenuGrafo(Grafo *grafo, Antena *lista, int linha, int coluna)
         {
         case 1:
             // Mostra o grafo
-            imprimirGrafo(grafo, lista, linha, coluna);
-            esperarEnter();
+            imprimirGrafo(grafo, lista, linha, coluna, listaMensagens, idioma);
+            esperarEnter(listaMensagens, idioma);
             break;
         case 2:
             // Executa BFS
-            antena = selecionarAntena(lista, linha, coluna);
+            limparBufferEntrada();
+            antena = selecionarAntena(lista, linha, coluna, listaMensagens, idioma);
             if (antena)
             {
-                bfs(grafo, antena);
+                bfs(grafo, antena, listaMensagens, idioma);
             }
             else
             {
                 break;
             }
-            esperarEnter();
+            esperarEnter(listaMensagens, idioma);
             break;
         case 3:
             // Executa DFS
-            antena = selecionarAntena(lista, linha, coluna);
+            limparBufferEntrada();
+            antena = selecionarAntena(lista, linha, coluna, listaMensagens, idioma);
             if (antena)
             {
-                dfs(grafo, antena);
+
+                dfs(grafo, antena, listaMensagens, idioma);
+                esperarEnter(listaMensagens, idioma);
             }
             else
             {
+                esperarEnter(listaMensagens, idioma);
                 break;
             }
-            esperarEnter();
             break;
         case 4:
             // Mostra caminhos entre duas antenas
-            antena = selecionarAntena(lista, linha, coluna);
-            antena2 = selecionarAntena(lista, linha, coluna);
+            limparBufferEntrada();
+            antena = selecionarAntena(lista, linha, coluna, listaMensagens, idioma);
+            antena2 = selecionarAntena(lista, linha, coluna, listaMensagens, idioma);
             if (antena && antena2)
             {
                 mostrarCaminhos(grafo, antena, antena2);
+                esperarEnter(listaMensagens, idioma);
             }
             else
             {
+                esperarEnter(listaMensagens, idioma);
+
                 break;
             }
-            esperarEnter();
+            break;
+        case 5:
+            // Verifica interseções de frequências
+            detetarIntersecoes(grafo, listaMensagens, idioma);
+            esperarEnter(listaMensagens, idioma);
             break;
         default:
             break;
         }
-        mostrarMenuGrafo();
-        printf("Escolha uma opção: ");
+        limpartela();
+        imprimirMatrizAntenas(lista, grafo, coluna, linha, 1, listaMensagens, idioma);
+        mostrarMensagem(listaMensagens, idioma, 300);
+        mostrarMensagem(listaMensagens, idioma, 1);
         scanf("%d", &opcaografo);
-    } while (opcaografo != 0); // Continue until the user chooses to exit.
+    } while (opcaografo != 0);
     return grafo;
-}
-
-int mostrarMenuGrafo()
-{
-    printf("Menu Grafo:\n");
-    printf("1. Mostrar grafo\n");
-    printf("2. Executar BFS\n");
-    printf("3. Executar DFS\n");
-    printf("4. Mostrar caminhos entre duas antenas\n");
-    printf("0. Voltar ao menu\n\n");
-    printf("Escolha uma opção: ");
-    return 0;
 }

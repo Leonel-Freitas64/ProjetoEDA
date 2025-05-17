@@ -6,9 +6,8 @@
  */
 
 #include "../resources/Estruturas.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
+#include "../resources/Funções.h"
+
 
 /**
  * @brief Cria um novo efeito nefasto.
@@ -100,7 +99,6 @@ Nefasto* adicionarEfeitoNefasto(Nefasto* listaNefastos, Antena* antena1, Antena*
     Nefasto* novo = criarEfeitoNefasto(antena1, antena2, x1, y1, x2, y2);
     if (!novo)
     {
-        printf("Erro ao criar efeito nefasto.\n");
         return listaNefastos; // Retorna a lista sem alterações
     }
 
@@ -195,18 +193,22 @@ Nefasto* verificaEfeitoNefasto(Antena* listaAntenas, Nefasto* listaNefastos, int
  * 
  * @param listaNefastos Ponteiro para a lista de efeitos nefastos.
  */
-void listarEfeitosNefastos(Nefasto* listaNefastos)
+void listarEfeitosNefastos(Nefasto* listaNefastos, ListaMensagem* listaMensagens, int idioma)
 {
     if (!listaNefastos)
     {
-        printf("Não existem efeitos nefastos registrados.\n");
+        mostrarMensagem(listaMensagens, idioma, 1100); // Código 1100: "Não existem efeitos nefastos registrados."
         return;
     }
 
     Nefasto* atual = listaNefastos;
     while (atual)
     {
-        printf("Efeito Nefasto entre '%c' em (%d, %d) e (%d, %d)\n", atual->antena1->frequencia ,atual->x1, atual->y1, atual->x2, atual->y2);
+        Mensagem* mensagem = obterMensagem(listaMensagens, idioma, 1101); // Código 1101: "Efeito Nefasto entre '%c' em (%d, %d) e (%d, %d)"
+        if (mensagem)
+        {
+            printf(mensagem->texto, atual->antena1->frequencia, atual->x1, atual->y1, atual->x2, atual->y2);
+        }
         atual = atual->next;
     }
 }

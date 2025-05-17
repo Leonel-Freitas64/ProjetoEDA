@@ -9,7 +9,7 @@
  * @param linhas Número de linhas da matriz.
  * @param modo Modo de impressão (1: apenas antenas, 2: apenas efeitos, 3: ambos).
  */
-void imprimirMatrizAntenas(Antena *lista, Nefasto *efeitos, int colunas, int linhas, int modo)
+void imprimirMatrizAntenas(Antena *lista, Nefasto *efeitos, int colunas, int linhas, int modo,ListaMensagem *listaMensagens, int idioma)
 {
     // Cria a matriz e inicializa com '.'
     char matriz[linhas][colunas];
@@ -45,8 +45,7 @@ void imprimirMatrizAntenas(Antena *lista, Nefasto *efeitos, int colunas, int lin
             {
                 if (matriz[efeitoAtual->y1][efeitoAtual->x1] != '.')
                 {
-                    printf("Sobreposição detectada em (%d, %d): já exitia '%c' nessas coordenadas\n",
-                           efeitoAtual->x1, efeitoAtual->y1, matriz[efeitoAtual->y1][efeitoAtual->x1]);
+                    mostrarSobreposicao(listaMensagens, idioma, efeitoAtual->x1, efeitoAtual->y1, matriz[efeitoAtual->y1][efeitoAtual->x1]);
                     matriz[efeitoAtual->y1][efeitoAtual->x1] = '@';
                 }
                 else
@@ -58,8 +57,7 @@ void imprimirMatrizAntenas(Antena *lista, Nefasto *efeitos, int colunas, int lin
             {
                 if (matriz[efeitoAtual->y2][efeitoAtual->x2] != '.')
                 {
-                    printf("Sobreposição detectada em (%d, %d): já existia '%c' nessas coordenadas\n",
-                           efeitoAtual->x2, efeitoAtual->y2, matriz[efeitoAtual->y2][efeitoAtual->x2]);
+                    mostrarSobreposicao(listaMensagens, idioma, efeitoAtual->x2, efeitoAtual->y2, matriz[efeitoAtual->y2][efeitoAtual->x2]);
                     matriz[efeitoAtual->y2][efeitoAtual->x2] = '@';
                 }
                 else

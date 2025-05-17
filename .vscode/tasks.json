@@ -14,6 +14,7 @@
           "src/Nefasto.c",
           "src/Grafos.c",
           "src/Menu.c",
+          "src/Mensagem.c",
           "-Iresources",
           "-o",
           "bin/main"

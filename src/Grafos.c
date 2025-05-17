@@ -8,7 +8,6 @@ static Vertice *obterOuCriarVertice(Grafo *grafo, Antena *antena)
 {
     if (!antena)
     {
-        printf("Antena é nulo.\n");
         return NULL;
     }
 
@@ -24,7 +23,6 @@ static Vertice *obterOuCriarVertice(Grafo *grafo, Antena *antena)
     Vertice *novo = malloc(sizeof(Vertice));
     if (!novo)
     {
-        printf("Erro: Falha ao alocar memória para o vértice.\n");
         return NULL;
     }
 
@@ -73,12 +71,13 @@ int adicionarAresta(Grafo *grafo, Antena *a, Antena *b)
     return 0;
 }
 
-Grafo *construirGrafo(Antena *lista)
+Grafo *construirGrafo(Antena *lista, ListaMensagem *listamensagens,int idioma )
 {
     Grafo *grafo = malloc(sizeof(Grafo));
     if (!grafo)
         return NULL;
-    grafo->vertices = NULL;
+    grafo->vertices = NULL; 
+    Mensagem *mensagem = obterMensagem(listamensagens, idioma, 901); // "Construindo grafo..."
 
     for (Antena *a = lista; a != NULL; a = a->next)
     {
@@ -94,21 +93,21 @@ Grafo *construirGrafo(Antena *lista)
                 {
                     if (adicionarAresta(grafo, a, b) != 0)
                     {
-                        printf("Erro ao adicionar aresta entre (%d,%d) e (%d,%d)\n", a->x, a->y, b->x, b->y);
+                        printf(mensagem->texto, a->x, a->y, b->x, b->y);
                     }
                 }
                 else if (a->y == b->y && dx <= 3)
                 {
                     if (adicionarAresta(grafo, a, b) != 0)
                     {
-                        printf("Erro ao adicionar aresta entre (%d,%d) e (%d,%d)\n", a->x, a->y, b->x, b->y);
+                        printf(mensagem->texto, a->x, a->y, b->x, b->y);
                     }
                 }
-                else if ((dx + dy <= 4))
+                else if ((dx + dy <= 5))
                 {
                     if (adicionarAresta(grafo, a, b) != 0)
                     {
-                        printf("Erro ao adicionar aresta entre (%d,%d) e (%d,%d)\n", a->x, a->y, b->x, b->y);
+                        printf(mensagem->texto, a->x, a->y, b->x, b->y);
                     }
                 }
             }
@@ -118,32 +117,105 @@ Grafo *construirGrafo(Antena *lista)
     return grafo;
 }
 
-void imprimirGrafo(Grafo* grafo, Antena* lista, int linha, int coluna) {
+void imprimirGrafo(Grafo* grafo, Antena* lista, int linha, int coluna, ListaMensagem* listaMensagens, int idioma) {
     if (!grafo || !lista) {
-        printf("Erro: Grafo ou lista de antenas é nulo.\n");
+        mostrarMensagem(listaMensagens, idioma, 902); // Código 1000: "Erro: Grafo ou lista de antenas é nulo."
         return;
     }
-    printf("Grafo:\n");
+
+    mostrarMensagem(listaMensagens, idioma, 903); // Código 1001: "Grafo:\n"
 
     // Itera sobre os vértices do grafo
     Vertice* v = grafo->vertices;
     while (v) {
-        printf("Antena de frequencia %c: (%d, %d) --- ",v->antena->frequencia, v->antena->x, v->antena->y);
+        Mensagem* mensagemVertice = obterMensagem(listaMensagens, idioma, 904); // Código 1002: "Antena de frequencia %c: (%d, %d) --- "
+        if (mensagemVertice) {
+            printf(mensagemVertice->texto, v->antena->frequencia, v->antena->x, v->antena->y);
+        }
 
         // Itera sobre as arestas (adjacências) do vértice
         Aresta* adj = v->adjacentes;
         while (adj) {
-            printf("Antena (%d, %d)", adj->destino->x, adj->destino->y);
+            Mensagem* mensagemAresta = obterMensagem(listaMensagens, idioma, 905); // Código 1003: "Antena (%d, %d)"
+            if (mensagemAresta) {
+                printf(mensagemAresta->texto, adj->destino->x, adj->destino->y);
+            }
+
             adj = adj->next;
             if (adj) {
-                printf(", --- "); // Adiciona vírgula entre conexões
+                printf(" ---> ");
             }
         }
 
         printf("\n"); // Nova linha para o próximo vértice
         v = v->next;
     }
+}
+
+void detetarIntersecoes(Grafo *grafo, ListaMensagem *listamensagens, int idioma)
+{
+    float pontosX[1000], pontosY[1000];
+    char freq1[1000], freq2[1000];
+    int total = 0;
+    Mensagem* mensagem = obterMensagem(listamensagens, idioma, 908); // "Interseções teóricas entre antenas:\n"
     
+    for (Vertice *v1 = grafo->vertices; v1 != NULL; v1 = v1->next)
+    {
+        for (Aresta *a1 = v1->adjacentes; a1 != NULL; a1 = a1->next)
+        {
+            Antena *a1_1 = v1->antena;
+            Antena *a1_2 = a1->destino;
+            if (!a1_1 || !a1_2) continue;
+            if (a1_1->frequencia != a1_2->frequencia) continue;
+
+            for (Vertice *v2 = grafo->vertices; v2 != NULL; v2 = v2->next)
+            {
+                for (Aresta *a2 = v2->adjacentes; a2 != NULL; a2 = a2->next)
+                {
+                    Antena *a2_1 = v2->antena;
+                    Antena *a2_2 = a2->destino;
+                    if (!a2_1 || !a2_2) continue;
+                    if (a2_1->frequencia != a2_2->frequencia) continue;
+                    if (a1_1->frequencia == a2_1->frequencia) continue;
+
+                    // Evitar pares exatamente iguais
+                    if ((a1_1 == a2_1 && a1_2 == a2_2) || (a1_1 == a2_2 && a1_2 == a2_1))
+                        continue;
+
+                    float x = (a1_1->x + a1_2->x + a2_1->x + a2_2->x) / 4.0;
+                    float y = (a1_1->y + a1_2->y + a2_1->y + a2_2->y) / 4.0;
+
+                    // Verificar se já foi impresso
+                    int repetido = 0;
+                    for (int i = 0; i < total; i++)
+                    {
+                        if (pontosX[i] == x && pontosY[i] == y &&
+                            ((freq1[i] == a1_1->frequencia && freq2[i] == a2_1->frequencia) ||
+                             (freq2[i] == a1_1->frequencia && freq1[i] == a2_1->frequencia)))
+                        {
+                            repetido = 1;
+                            break;
+                        }
+                    }
+
+                    if (!repetido)
+                    {
+                        if (mensagem)
+                        {
+                            printf(mensagem->texto,a1_1->frequencia, a2_1->frequencia, x, y);
+                        
+                        }
+
+                        pontosX[total] = x;
+                        pontosY[total] = y;
+                        freq1[total] = a1_1->frequencia;
+                        freq2[total] = a2_1->frequencia;
+                        total++;
+                    }
+                }
+            }
+        }
+    }
 }
 
 static int mesmaAntena(Antena *a, Antena *b)
@@ -197,56 +269,51 @@ int dfs_visitado(Vertice *vertice, Antena *alvo, Antena *visitados, int *visitad
     return 0;
 }
 
-int dfs(Grafo *grafo, Antena *origem)
-{
-    if (!grafo || !origem)
-    {
-        printf("Erro: Grafo ou antena de origem é nulo.\n");
+int dfs(Grafo* grafo, Antena* origem, ListaMensagem* listaMensagens, int idioma) {
+    if (!grafo || !origem) {
+        mostrarMensagem(listaMensagens, idioma, 1000); // Código 1000: "Erro: Grafo ou antena de origem são nulos."
         return 0;
     }
 
-    Vertice *inicio = obterOuCriarVertice(grafo, origem);
-    if (!inicio)
-    {
-        printf("Erro: Vértice de origem não encontrado.\n");
-        return 0;
-    }
+    int visitado[10000] = {0}; // Assume matriz até 100x100
+    Vertice* pilha[100];       // Pilha para DFS
+    int topo = 0;
 
-    int visitado[10000] = {0};  // assume max 100x100
-    Vertice *stack[100];
-    int topo = -1;
-    stack[++topo] = inicio;
+    Vertice* inicio = obterOuCriarVertice(grafo, origem);
+    pilha[topo++] = inicio;
 
-    while (topo >= 0)
-    {
-        Vertice *v = stack[topo--];
-        int idx = v->antena->x * 100 + v->antena->y;
+    while (topo > 0) {
+        Vertice* atual = pilha[--topo];
+        int idx = atual->antena->x * 100 + atual->antena->y;
 
-        if (visitado[idx])
+        if (visitado[idx]) {
             continue;
+        }
 
         visitado[idx] = 1;
-        printf("[DFS] Visitado: %c (%d, %d)\n", v->antena->frequencia, v->antena->x, v->antena->y);
 
-        // Adiciona vizinhos à stack
-        Aresta *adj = v->adjacentes;
-        while (adj)
-        {
-            Vertice *vizinho = obterOuCriarVertice(grafo, adj->destino);
+        // Exibe a mensagem de visitação dinamicamente
+        Mensagem* mensagem = obterMensagem(listaMensagens, idioma, 907); // Código 907: "[DFS] Visitado: '%c' em (%d, %d)"
+        if (mensagem) {
+            printf(mensagem->texto, atual->antena->frequencia, atual->antena->x, atual->antena->y);
+        }
+
+        // Adiciona os vértices adjacentes à pilha
+        Aresta* adj = atual->adjacentes;
+        while (adj) {
+            Vertice* vizinho = obterOuCriarVertice(grafo, adj->destino);
             int id_vizinho = vizinho->antena->x * 100 + vizinho->antena->y;
-            if (!visitado[id_vizinho])
-            {
-                stack[++topo] = vizinho;
+
+            if (!visitado[id_vizinho]) {
+                pilha[topo++] = vizinho;
             }
             adj = adj->next;
         }
     }
-
     return 1;
 }
 
-
-int bfs(Grafo *grafo, Antena *origem)
+int bfs(Grafo *grafo, Antena *origem, ListaMensagem *listaMensagens, int idioma)
 {
     if (!grafo || !origem)
     {
@@ -276,7 +343,11 @@ int bfs(Grafo *grafo, Antena *origem)
             continue;
 
         visitado[idx] = 1;
-        printf("[BFS] Visitado: %c (%d, %d)\n", atual->antena->frequencia, atual->antena->x, atual->antena->y);
+        Mensagem *mensagem = obterMensagem(listaMensagens, idioma, 900); // Código 900: "[BFS] Visitado: %c (%d, %d)"
+if (mensagem)
+{
+    printf(mensagem->texto, atual->antena->frequencia, atual->antena->x, atual->antena->y);
+}
 
         Aresta *adj = atual->adjacentes;
         while (adj)
@@ -309,9 +380,8 @@ void dfsCaminhosRec(Vertice* atual, Antena* destino, int* visitado, int* caminho
 
     // Verifica se o destino foi alcançado
     if (atual->antena->x == destino->x && atual->antena->y == destino->y) {
-        printf("Caminho encontrado: ");
         for (int i = 0; i <= profundidade; i++) {
-            printf("(%d, %d) ", caminhoX[i], caminhoY[i]);
+            printf("(%d, %d) ->", caminhoX[i], caminhoY[i]);
         }
         printf("\n");
         visitado[index] = 0; // Desmarca o vértice antes de retornar
@@ -333,23 +403,21 @@ void dfsCaminhosRec(Vertice* atual, Antena* destino, int* visitado, int* caminho
     visitado[index] = 0; // Desmarca o vértice
 }
 
-void mostrarCaminhos(Grafo* grafo, Antena* origem, Antena* destino) {
+bool mostrarCaminhos(Grafo* grafo, Antena* origem, Antena* destino) {
     if (!grafo || !origem || !destino) {
-        printf("Erro: Grafo ou antena de origem/destino é nulo.\n");
-        return;
+        return false;
     }
 
     Vertice* verticeOrigem = obterOuCriarVertice(grafo, origem);
     if (!verticeOrigem) {
-        printf("Erro: Não foi possível encontrar ou criar o vértice de origem.\n");
-        return;
+        return false;
     }
 
     int visitado[10000] = {0}; // Array para marcar os vértices visitados
     int caminhoX[100], caminhoY[100]; // Arrays para armazenar o caminho
 
-    printf("Caminhos de (%d, %d) para (%d, %d):\n", origem->x, origem->y, destino->x, destino->y);
     dfsCaminhosRec(verticeOrigem, destino, visitado, caminhoX, caminhoY, 0);
+    return true;
 }
 
 Grafo* libertarGrafo(Grafo *grafo)

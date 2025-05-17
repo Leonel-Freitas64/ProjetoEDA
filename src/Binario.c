@@ -27,7 +27,6 @@ bool salvarEmBinario(Antena* lista, int largura, int altura, const char* nomeArq
     FILE* f = fopen(nomeArquivo, "wb");
     if (!f)
     {
-        printf("Erro ao abrir o arquivo '%s' para escrita.\n", nomeArquivo);
         return false;
     }
 
@@ -71,7 +70,7 @@ Antena* lerDeBinario(int* largura, int* altura, const char* nomeArquivo)
     FILE* f = fopen(nomeArquivo, "rb");
     if (!f)
     {
-        printf("Erro ao abrir o arquivo '%s' para leitura.\n", nomeArquivo);
+        return NULL; // Retorna NULL se o arquivo não puder ser aberto
     }
 
     // Lê o número de linhas e colunas da matriz
