@@ -1,9 +1,25 @@
+/**
+ * @file Grafos.c
+ * @author Leonel Freitas (a31520@alunos.ipca.pt)
+ * @brief Implementação das funções relacionadas à manipulação de grafos.
+ * @version 1.1
+ * @date 19-05-2025
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include "../resources/Funções.h"
 #include "../resources/Estruturas.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
+
+/**
+ * @brief Obtém ou cria um vértice no grafo para uma antena.
+ *
+ * @param grafo Ponteiro para o grafo.
+ * @param antena Ponteiro para a antena.
+ * @return Vertice* Ponteiro para o vértice correspondente à antena.
+ */
 static Vertice *obterOuCriarVertice(Grafo *grafo, Antena *antena)
 {
     if (!antena)
@@ -34,6 +50,13 @@ static Vertice *obterOuCriarVertice(Grafo *grafo, Antena *antena)
     return novo;
 }
 
+/**
+ * @brief Encontra um vértice no grafo com base na antena.
+ *
+ * @param atual Ponteiro para o vértice inicial.
+ * @param antena Ponteiro para a antena.
+ * @return Vertice* Ponteiro para o vértice encontrado ou NULL se não encontrado.
+ */
 Vertice* encontrarVerticePorAntena(Vertice* atual, Antena* antena) {
     while (atual) {
         if (atual->antena == antena) {
@@ -44,6 +67,14 @@ Vertice* encontrarVerticePorAntena(Vertice* atual, Antena* antena) {
     return NULL;
 }
 
+/**
+ * @brief Adiciona uma aresta entre duas antenas no grafo.
+ * 
+ * @param grafo Ponteiro para o grafo.
+ * @param a Ponteiro para a antena de origem.
+ * @param b Ponteiro para a antena de destino.
+ * @return int Retorna 0 se a aresta foi adicionada com sucesso, 1 caso contrário.
+ */
 int adicionarAresta(Grafo *grafo, Antena *a, Antena *b)
 {
     if (!grafo || !a || !b)
@@ -71,7 +102,14 @@ int adicionarAresta(Grafo *grafo, Antena *a, Antena *b)
     return 0;
 }
 
-
+/**
+ * @brief Constrói um grafo com base na lista de antenas.
+ * 
+ * @param lista Ponteiro para a lista de antenas.
+ * @param listamensagens Ponteiro para a lista de mensagens.
+ * @param idioma Idioma selecionado.
+ * @return Grafo* Ponteiro para o grafo construído ou NULL em caso de erro.
+ */
 Grafo *construirGrafo(Antena *lista, ListaMensagem *listamensagens,int idioma )
 {
     Grafo *grafo = malloc(sizeof(Grafo));
@@ -118,6 +156,17 @@ Grafo *construirGrafo(Antena *lista, ListaMensagem *listamensagens,int idioma )
     return grafo;
 }
 
+/**
+ * @brief Imprime o grafo com as conexões entre antenas.
+ * 
+ * @param grafo Ponteiro para o grafo.
+ * @param lista Ponteiro para a lista de antenas.
+ * @param linha Número de linhas da matriz.
+ * @param coluna Número de colunas da matriz.
+ * @param listaMensagens Ponteiro para a lista de mensagens.
+ * @param idioma Idioma selecionado.
+ * @return int Retorna 1 se o grafo foi impresso com sucesso, 0 caso contrário.
+ */
 int imprimirGrafo(Grafo* grafo, Antena* lista, int linha, int coluna, ListaMensagem* listaMensagens, int idioma) {
     if (!grafo || !lista) {
         mostrarMensagem(listaMensagens, idioma, 902); // Código 1000: "Erro: Grafo ou lista de antenas é nulo."
@@ -144,7 +193,7 @@ int imprimirGrafo(Grafo* grafo, Antena* lista, int linha, int coluna, ListaMensa
 
             adj = adj->next;
             if (adj) {
-                printf(" ---> ");
+                printf(" --> ");
             }
         }
 
@@ -154,6 +203,14 @@ int imprimirGrafo(Grafo* grafo, Antena* lista, int linha, int coluna, ListaMensa
     return 1;
 }
 
+/**
+ * @brief Detecta interseções teóricas entre antenas no grafo.
+ *
+ * @param grafo Ponteiro para o grafo.
+ * @param listamensagens Ponteiro para a lista de mensagens.
+ * @param idioma Idioma selecionado.
+ * @return int Número de interseções detectadas.
+ */
 int detetarIntersecoes(Grafo *grafo, ListaMensagem *listamensagens, int idioma)
 {
     float pontosX[1000], pontosY[1000];
@@ -226,56 +283,12 @@ static int mesmaAntena(Antena *a, Antena *b)
 }
 
 /**
- * @brief Realiza uma busca em profundidade (DFS) no grafo.
- *
- * @param vertice Ponteiro para o vértice atual.
- * @param alvo Ponteiro para a antena alvo.
- * @param visitados Array de antenas já visitadas.
- * @param visitadosCount Número de antenas já visitadas.
- * @param max Tamanho máximo do array de visitados.
- * @return int Retorna 1 se o alvo foi encontrado, 0 caso contrário.
- */
-int dfs_visitado(Vertice *vertice, Antena *alvo, Antena *visitados, int *visitadosCount, int max)
-{
-    if (!vertice || !vertice->antena || *visitadosCount >= max)
-        return 0;
-
-    // Verifica se a antena já foi visitada
-    for (int i = 0; i < *visitadosCount; i++)
-    {
-        if (mesmaAntena(&visitados[i], vertice->antena))
-            return 0;
-    }
-
-    // Marca a antena como visitada
-    visitados[(*visitadosCount)++] = *(vertice->antena);
-
-    // Verifica se o alvo foi encontrado
-    if (alvo && mesmaAntena(vertice->antena, alvo))
-    {
-        printf("Encontrado: (%d,%d)\n", alvo->x, alvo->y);
-        return 1;
-    }
-
-    // Explora os vértices adjacentes
-    Aresta *adj = vertice->adjacentes;
-    while (adj)
-    {
-        if (dfs_visitado(obterOuCriarVertice(NULL, adj->destino), alvo, visitados, visitadosCount, max))
-        {
-            return 1;
-        }
-        adj = adj->next;
-    }
-
-    return 0;
-}
-
-/**
  * @brief Executa a pesquisa em profundidade (DFS) a partir de uma antena.
  *
  * @param grafo Ponteiro para o grafo.
  * @param origem Antena de origem para iniciar a pesquisa.
+ * @param listaMensagens Ponteiro para a lista de mensagens.
+ * @param idioma Idioma selecionado.
  * @return int Número de antenas visitadas.
  */
 int dfs(Grafo* grafo, Antena* origem, ListaMensagem* listaMensagens, int idioma) {
@@ -326,20 +339,20 @@ int dfs(Grafo* grafo, Antena* origem, ListaMensagem* listaMensagens, int idioma)
  *
  * @param grafo Ponteiro para o grafo.
  * @param origem Antena de origem para iniciar a pesquisa.
+ * @param listaMensagens Ponteiro para a lista de mensagens.
+ * @param idioma Idioma selecionado.
  * @return int Número de antenas visitadas.
  */
 int bfs(Grafo *grafo, Antena *origem, ListaMensagem *listaMensagens, int idioma)
 {
     if (!grafo || !origem)
     {
-        printf("Erro: Grafo ou antena de origem é nulo.\n");
         return 0;
     }
 
     Vertice *inicio = obterOuCriarVertice(grafo, origem);
     if (!inicio)
     {
-        printf("Erro: Vértice de origem não encontrado.\n");
         return 0;
     }
 
@@ -381,12 +394,23 @@ if (mensagem)
     return 1;
 }
 
+/**
+ * @brief Função recursiva para encontrar e exibir todos os caminhos possíveis entre dois vértices no grafo.
+ *
+ * @param atual Ponteiro para o vértice atual sendo visitado.
+ * @param destino Ponteiro para a antena de destino.
+ * @param visitado Array para marcar os vértices já visitados.
+ * @param caminhoX Array para armazenar as coordenadas X do caminho atual.
+ * @param caminhoY Array para armazenar as coordenadas Y do caminho atual.
+ * @param profundidade Profundidade atual da recursão, usada para indexar os arrays de caminho.
+ * @return int Retorna 1 se o caminho foi encontrado, 0 caso contrário.
+ */
 int dfsCaminhosRec(Vertice* atual, Antena* destino, int* visitado, int* caminhoX, int* caminhoY, int profundidade) {
     if (!atual || !destino) {
-        return 0;
+        return 0; // Retorna 0 se o vértice atual ou o destino forem inválidos
     }
 
-    int index = atual->antena->x * 100 + atual->antena->y;
+    int index = atual->antena->x * 100 + atual->antena->y; // Calcula o índice único para o vértice atual
     visitado[index] = 1; // Marca o vértice como visitado
 
     // Adiciona a antena atual ao caminho
@@ -395,8 +419,9 @@ int dfsCaminhosRec(Vertice* atual, Antena* destino, int* visitado, int* caminhoX
 
     // Verifica se o destino foi alcançado
     if (atual->antena->x == destino->x && atual->antena->y == destino->y) {
+        // Exibe o caminho encontrado
         for (int i = 0; i <= profundidade; i++) {
-            printf("(%d, %d) ->", caminhoX[i], caminhoY[i]);
+            printf("(%d, %d) ", caminhoX[i], caminhoY[i]);
         }
         printf("\n");
         visitado[index] = 0; // Desmarca o vértice antes de retornar
@@ -407,8 +432,8 @@ int dfsCaminhosRec(Vertice* atual, Antena* destino, int* visitado, int* caminhoX
     Aresta* adj = atual->adjacentes;
     while (adj) {
         Antena* destinoAntena = adj->destino;
-        int destionIndex = destinoAntena->x * 100 + destinoAntena->y;
-        if (!visitado[destionIndex]) {
+        int destinoIndex = destinoAntena->x * 100 + destinoAntena->y;
+        if (!visitado[destinoIndex]) {
             Vertice* proximo = encontrarVerticePorAntena(atual, destinoAntena);
             dfsCaminhosRec(proximo, destino, visitado, caminhoX, caminhoY, profundidade + 1);
         }
@@ -443,6 +468,12 @@ bool mostrarCaminhos(Grafo* grafo, Antena* origem, Antena* destino) {
     return true;
 }
 
+/**
+ * @brief Libera a memória do Grafo.
+ * 
+ * @param lista Ponteiro para o Grafo.
+ * @return Grafo* Retorna NULL após liberar a memória.
+ */
 Grafo* libertarGrafo(Grafo *grafo)
 {
     if (!grafo) return NULL;

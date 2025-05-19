@@ -1,3 +1,14 @@
+/**
+ * @file Mensagem.c
+ * @author Leonel Freitas (a31520@alunos.ipca.pt)
+ * @brief Implementação das funções relacionadas à manipulação de mensagens.
+ * @version 1.1
+ * @date 19-05-2025
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include "../resources/Funções.h"
 #include "../resources/Estruturas.h"
 
@@ -28,6 +39,7 @@ int adicionarMensagem(ListaMensagem *idioma, int codigo, const char *texto) {
  * @param lista Ponteiro para a lista de idiomas.
  * @param idioma Índice do idioma.
  * @param codigo Código da mensagem.
+ * @return bool Retorna true se a mensagem foi exibida com sucesso, false caso contrário.
  */
 bool mostrarMensagem(ListaMensagem *lista, int idioma, int codigo) {
     ListaMensagem *idiomaLista = lista;
@@ -204,9 +216,10 @@ ListaMensagem* carregarMensagens(const char* caminho) {
 }
 
 /**
- * @brief Função para selecionar o idioma.
+ * @brief Seleciona o idioma com base na lista de mensagens.
  * 
- * @return int Retorna o idioma selecionado.
+ * @param lista Ponteiro para a lista de mensagens.
+ * @return int Retorna o índice do idioma selecionado.
  */
 int selecionarIdioma(ListaMensagem* lista) {
     ListaMensagem* atual = lista;

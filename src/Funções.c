@@ -17,6 +17,102 @@
  *
  * Esta função utiliza comandos do sistema operacional para limpar a tela do terminal.
  * No Windows, o comando "cls" é usado, enquanto no Unix/Linux/MacOS, o comando "clear" é utilizado.
+ */
+void limpartela();
+
+/**
+ * @brief Limpa o buffer de entrada.
+ *
+ * Esta função descarta qualquer entrada pendente no buffer, garantindo que leituras subsequentes
+ * não sejam afetadas por entradas anteriores.
+ */
+void limparBufferEntrada();
+
+/**
+ * @brief Exibe o menu principal e processa a entrada do usuário.
+ *
+ * @param listaMensagens Ponteiro para a lista de mensagens.
+ * @param idioma Idioma selecionado.
+ * @return int A opção escolhida pelo usuário.
+ */
+int mostrarMenuPrincipal(ListaMensagem *listaMensagens, int idioma);
+
+/**
+ * @brief Exibe o menu secundário e processa a entrada do usuário.
+ *
+ * @param listaMensagem Ponteiro para a lista de mensagens.
+ * @param idioma Idioma selecionado.
+ * @return int A opção escolhida pelo usuário.
+ */
+int mostrarMenuSecundario(ListaMensagem *listaMensagem, int idioma);
+
+/**
+ * @brief Executa o menu secundário, permitindo manipulação de antenas e efeitos nefastos.
+ *
+ * @param lista Ponteiro para a lista de antenas.
+ * @param efeitos Ponteiro para a lista de efeitos nefastos.
+ * @param linha Número de linhas da matriz.
+ * @param coluna Número de colunas da matriz.
+ * @param listaMensagens Ponteiro para a lista de mensagens.
+ * @param idioma Idioma selecionado.
+ * @return int Retorna 0 ao sair do menu secundário.
+ */
+int executarMenuSecundario(Antena *lista, Nefasto *efeitos, int *linha, int *coluna, ListaMensagem *listaMensagens, int idioma);
+
+/**
+ * @brief Aguarda o usuário pressionar Enter para continuar.
+ *
+ * @param listaMensagem Ponteiro para a lista de mensagens.
+ * @param idioma Idioma selecionado.
+ */
+int esperarEnter(ListaMensagem *listaMensagem, int idioma);
+
+/**
+ * @brief Processa as opções do menu secundário.
+ *
+ * @param opcao Opção escolhida pelo usuário.
+ * @param lista Ponteiro para a lista de antenas.
+ * @param efeitos Ponteiro para a lista de efeitos nefastos.
+ * @param linha Número de linhas da matriz.
+ * @param coluna Número de colunas da matriz.
+ * @param listaMensagens Ponteiro para a lista de mensagens.
+ * @param idioma Idioma selecionado.
+ * @return Antena* Ponteiro para a lista de antenas atualizada.
+ */
+Antena *processarOpcaoSecundaria(int opcao, Antena *lista, Nefasto *efeitos, int linha, int coluna, ListaMensagem *listaMensagens, int idioma);
+
+/**
+ * @brief Processa as opções do menu principal.
+ *
+ * @param opcao Opção escolhida pelo usuário.
+ * @param lista Ponteiro para a lista de antenas.
+ * @param efeitos Ponteiro para a lista de efeitos nefastos.
+ * @param linha Ponteiro para o número de linhas da matriz.
+ * @param coluna Ponteiro para o número de colunas da matriz.
+ * @param listaMensagens Ponteiro para a lista de mensagens.
+ * @param idioma Idioma selecionado.
+ * @return Antena* Ponteiro para a lista de antenas atualizada.
+ */
+Antena *processarOpcao(int opcao, Antena *lista, Nefasto *efeitos, int *linha, int *coluna, ListaMensagem *listaMensagens, int idioma);
+
+/**
+ * @brief Executa o menu relacionado ao grafo, permitindo visualização e execução de algoritmos.
+ *
+ * @param grafo Ponteiro para o grafo.
+ * @param lista Ponteiro para a lista de antenas.
+ * @param linha Número de linhas da matriz.
+ * @param coluna Número de colunas da matriz.
+ * @param listaMensagens Ponteiro para a lista de mensagens.
+ * @param idioma Idioma selecionado.
+ * @return Grafo* Ponteiro para o grafo atualizado.
+ */
+Grafo *executarMenuGrafo(Grafo *grafo, Antena *lista, int linha, int coluna, ListaMensagem *listaMensagens, int idioma);
+
+/**
+ * @brief Limpa a tela do terminal.
+ *
+ * Esta função utiliza comandos do sistema operacional para limpar a tela do terminal.
+ * No Windows, o comando "cls" é usado, enquanto no Unix/Linux/MacOS, o comando "clear" é utilizado.
  * O operador "||" garante que o comando correto seja executado dependendo do sistema.
  */
 void limpartela()
@@ -94,11 +190,13 @@ int executarMenuSecundario(Antena *lista, Nefasto *efeitos, int *linha, int *col
     {
         opcaoSecundaria = mostrarMenuSecundario(listaMensagens, idioma);
         lista = processarOpcaoSecundaria(opcaoSecundaria, lista, efeitos, *linha, *coluna, listaMensagens, idioma);
+        efeitos = verificaEfeitoNefasto(lista, efeitos, *linha, *coluna);
     } while (opcaoSecundaria != 0);
     lista = liberarAntenas(lista);
     efeitos = liberarEfeitosNefastos(efeitos);
     limpartela();
 }
+
 /**
  * @brief Aguarda o usuário pressionar Enter para continuar.
  */
@@ -109,6 +207,7 @@ int esperarEnter(ListaMensagem *listaMensagem, int idioma)
         ;      // Limpa o buffer de entrada
     getchar(); // Aguarda o Enter
 }
+
 /**
  * @brief Processa as opções do menu secundário.
  *
@@ -277,6 +376,7 @@ Grafo *executarMenuGrafo(Grafo *grafo, Antena *lista, int linha, int coluna, Lis
     int opcaografo;
     do
     {
+
         switch (opcaografo)
         {
         case 1:

@@ -1,8 +1,12 @@
 /**
  * @file Nefasto.c
+ * @author Leonel Freitas (a31520@alunos.ipca.pt)
  * @brief Implementação das funções relacionadas aos efeitos nefastos entre antenas.
  * @version 1.1
- * @date 29-03-2025
+ * @date 19-05-2025
+ * 
+ * @copyright Copyright (c) 2025
+ * 
  */
 
 #include "../resources/Estruturas.h"

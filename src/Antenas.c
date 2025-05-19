@@ -1,12 +1,12 @@
 /**
  * @file Antenas.c
  * @author Leonel Freitas (a31520@alunos.ipca.pt)
- * @brief Implementação das funções relacionadas à manipulação de antenas.
+ * @brief 
  * @version 1.1
- * @date 29-03-2025
- *
+ * @date 19-05-2025
+ * 
  * @copyright Copyright (c) 2025
- *
+ * 
  */
 
 #include "../resources/Funções.h"
@@ -36,6 +36,14 @@ Antena *criarAntena(char freq, int x, int y)
     return nova;
 }
 
+/**
+ * @brief Encontra uma antena na lista com base nas coordenadas.
+ * 
+ * @param lista Ponteiro para a lista de antenas.
+ * @param x Coordenada X da antena.
+ * @param y Coordenada Y da antena.
+ * @return Antena* Ponteiro para a antena encontrada ou NULL se não for encontrada.
+ */
 Antena *encontrarAntenaPorCoordenadas(Antena *lista, int x, int y)
 {
     if (!lista)
@@ -56,6 +64,16 @@ Antena *encontrarAntenaPorCoordenadas(Antena *lista, int x, int y)
     return NULL; // Retorna NULL se a antena não for encontrada
 }
 
+/**
+ * @brief Seleciona uma antena com base nas coordenadas fornecidas pelo utilizador.
+ * 
+ * @param lista Ponteiro para a lista de antenas.
+ * @param linha Número de linhas da matriz.
+ * @param coluna Número de colunas da matriz.
+ * @param listaMensagens Ponteiro para a lista de mensagens.
+ * @param idioma Idioma selecionado.
+ * @return Antena* Ponteiro para a antena selecionada ou NULL se não for encontrada.
+ */
 Antena *selecionarAntena(Antena *lista, int linha, int coluna, ListaMensagem *listaMensagens, int idioma)
 {
     int x, y;
@@ -74,14 +92,13 @@ Antena *selecionarAntena(Antena *lista, int linha, int coluna, ListaMensagem *li
     return antenaEncontrada;
 }
 /**
- * @brief Insere uma antena na lista.
- *
- * @param head Ponteiro para o ponteiro da lista de antenas.
+ * @brief Insere uma nova antena na lista.
+ * 
+ * @param lista Ponteiro para a lista de antenas.
  * @param freq Frequência da antena.
  * @param x Coordenada X da antena.
  * @param y Coordenada Y da antena.
- * @return true Se a antena foi inserida com sucesso.
- * @return false Se já existe uma antena na mesma posição ou ocorreu um erro.
+ * @return Antena* Ponteiro para a lista atualizada ou NULL em caso de erro.
  */
 Antena *inserirAntena(Antena *lista, char freq, int x, int y)
 {
@@ -91,7 +108,7 @@ Antena *inserirAntena(Antena *lista, char freq, int x, int y)
     {
         if (atual->x == x && atual->y == y)
         {
-            return NULL; // Retorna NULL indicando falha
+            return lista;
         }
         atual = atual->next;
     }
@@ -109,13 +126,15 @@ Antena *inserirAntena(Antena *lista, char freq, int x, int y)
 }
 
 /**
- * @brief Remove uma antena da lista.
- *
- * @param head Ponteiro para o ponteiro da lista de antenas.
+ * @brief Remove uma antena da lista com base nas coordenadas.
+ * 
+ * @param lista Ponteiro para a lista de antenas.
  * @param x Coordenada X da antena a ser removida.
  * @param y Coordenada Y da antena a ser removida.
- * @return true Se a antena foi removida com sucesso.
- * @return false Se a antena não foi encontrada ou ocorreu um erro.
+ * @param listaNefastos Ponteiro para a lista de efeitos nefastos.
+ * @param listaMensagens Ponteiro para a lista de mensagens.
+ * @param idioma Idioma selecionado.
+ * @return Antena* Ponteiro para a lista atualizada ou NULL em caso de erro.
  */
 Antena *eliminarAntena(Antena *lista, int x, int y, Nefasto *listaNefastos, ListaMensagem *listaMensagens, int idioma)
 {
@@ -165,13 +184,17 @@ Antena *eliminarAntena(Antena *lista, int x, int y, Nefasto *listaNefastos, List
     return lista;
 }
 /**
- * @brief Solicita ao usuário os dados de uma antena.
- *
+ * @brief Solicita ao utilizador os dados de uma antena.
+ * 
+ * @param listaMensagens Ponteiro para a lista de mensagens.
+ * @param idioma Idioma selecionado.
  * @param freq Ponteiro para armazenar a frequência da antena.
  * @param x Ponteiro para armazenar a coordenada X.
  * @param y Ponteiro para armazenar a coordenada Y.
  * @param linha Número de linhas da matriz.
  * @param coluna Número de colunas da matriz.
+ * @return true Se os dados foram recolhidos com sucesso.
+ * @return false Se o utilizador optar por voltar ao menu.
  */
 bool recolherDadosAntena(ListaMensagem *listaMensagens, int idioma, char *freq, int *x, int *y, int linha, int coluna)
 {
@@ -248,13 +271,12 @@ bool recolherDadosAntena(ListaMensagem *listaMensagens, int idioma, char *freq, 
     return true; // Retorna true se os dados forem recolhidos com sucesso
 }
 /**
- * @brief Lê antenas de um arquivo e as insere na lista.
- *
- * @param nomeFicheiro Nome do arquivo a ser lido.
- * @param lista Ponteiro para a lista de antenas.
+ * @brief Lê antenas de um ficheiro e as insere na lista.
+ * 
+ * @param nomeFicheiro Nome do ficheiro a ser lido.
  * @param linha Ponteiro para armazenar o número de linhas da matriz.
  * @param coluna Ponteiro para armazenar o número de colunas da matriz.
- * @return Antena* Ponteiro para a lista de antenas.
+ * @return Antena* Ponteiro para a lista de antenas ou NULL em caso de erro.
  */
 Antena *lerAntenasDoFicheiro(const char *nomeFicheiro, int *linha, int *coluna)
 {
@@ -327,8 +349,12 @@ Antena *lerAntenasDoFicheiro(const char *nomeFicheiro, int *linha, int *coluna)
 
 /**
  * @brief Imprime a lista de antenas.
- *
+ * 
  * @param lista Ponteiro para a lista de antenas.
+ * @param listaMensagens Ponteiro para a lista de mensagens.
+ * @param idioma Idioma selecionado.
+ * @return true Se a lista foi impressa com sucesso.
+ * @return false Se a lista estiver vazia.
  */
 bool listarAntenas(Antena *lista, ListaMensagem *listaMensagens, int idioma)
 {
@@ -353,8 +379,9 @@ bool listarAntenas(Antena *lista, ListaMensagem *listaMensagens, int idioma)
 
 /**
  * @brief Libera a memória da lista de antenas.
- *
+ * 
  * @param lista Ponteiro para a lista de antenas.
+ * @return Antena* Retorna NULL após liberar a memória.
  */
 Antena *liberarAntenas(Antena *lista)
 {

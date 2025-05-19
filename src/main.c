@@ -1,7 +1,7 @@
 /**
  * @file main.c
  * @author Leonel Freitas (a31520@alunos.ipca.pt)
- * @brief 
+ * @brief Ficheiro principal do programa.
  * @version 1.1
  * @date 29-03-2025
  * 

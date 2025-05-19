@@ -1,3 +1,14 @@
+/**
+ * @file Menu.c
+ * @author Leonel Freitas (a31520@alunos.ipca.pt)
+ * @brief Ficheiro responsável pela impressão da matriz com as antenas e efeitos nefastos.
+ * @version 1.1
+ * @date 19-05-2025
+ * 
+ * @copyright Copyright (c) 2025
+ * 
+ */
+
 #include "../resources/Funções.h"
 #include "../resources/Estruturas.h"
 /**
