@@ -75,8 +75,8 @@ EN;805;Antenna removed: Frequency '%c', with coordinates (%d, %d)\n
 PT;806;Antena não encontrada
 EN;806;Antenna not found
 
-PT;900;[BFS] Visitado: %c (%d, %d)\n
-EN;900;[BFS] Visited: %c (%d, %d)\n
+PT;900;[BFS] Antena visitada em (%d, %d)\n
+EN;900;[BFS] Antenna visited at (%d, %d)\n
 
 PT;901;Erro ao adicionar aresta entre (%d,%d) e (%d,%d)\n
 EN;901;Error adding aresta between (%d,%d) and (%d,%d)\n
@@ -96,8 +96,8 @@ EN;905;Antenna (%d, %d)
 PT;906;Caminho: De '%c' em (%d, %d) para '%c' em (%d, %d)\n
 EN;906;Path: From '%c' at (%d, %d) to '%c' at (%d, %d)\n
 
-PT;907;[DFS] Visitado: '%c' em (%d, %d)\n
-EN;907;[DFS] Visited: '%c' at (%d, %d)\n
+PT;907;[DFS] Antena visitada em (%d, %d)\n
+EN;907;[DFS] Antenna visited at (%d, %d)\n
 
 PT;908;Interseção entre '%c' e '%c' aproximadamente em (%.2f, %.2f)\n
 EN;908;Intersection detected between '%c' and '%c' approximately at (%.2f, %.2f)\n

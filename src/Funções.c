@@ -123,7 +123,8 @@ void limpartela()
 void limparBufferEntrada()
 {
     int c;
-    while ((c = getchar()) != '\n' && c != EOF);
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
 }
 
 /**
@@ -314,7 +315,7 @@ Antena *processarOpcaoSecundaria(int opcao, Antena *lista, Nefasto *efeitos, int
  * @param linha Ponteiro para o número de linhas da matriz.
  * @param coluna Ponteiro para o número de colunas da matriz.
  */
-Antena* processarOpcao(int opcao, Antena *lista, Nefasto *efeitos, int *linha, int *coluna, ListaMensagem *listaMensagens, int idioma)
+Antena *processarOpcao(int opcao, Antena *lista, Nefasto *efeitos, int *linha, int *coluna, ListaMensagem *listaMensagens, int idioma)
 {
     switch (opcao)
     {
@@ -372,7 +373,7 @@ Antena* processarOpcao(int opcao, Antena *lista, Nefasto *efeitos, int *linha, i
 Grafo *executarMenuGrafo(Grafo *grafo, Antena *lista, int linha, int coluna, ListaMensagem *listaMensagens, int idioma)
 {
     Antena *antena, *antena2;
-    grafo = construirGrafo(lista, listaMensagens, idioma);
+    grafo = construirGrafo(lista);
     int opcaografo;
     do
     {
@@ -390,7 +391,12 @@ Grafo *executarMenuGrafo(Grafo *grafo, Antena *lista, int linha, int coluna, Lis
             antena = selecionarAntena(lista, linha, coluna, listaMensagens, idioma);
             if (antena)
             {
-                bfs(grafo, antena, listaMensagens, idioma);
+                ResultadoBFS *resultado = bfs(grafo, antena);
+                if (resultado)
+                {
+                    mostrarResultadoBFS(resultado, listaMensagens, idioma);
+                    free(resultado); // Libera a memória alocada
+                }
             }
             else
             {
@@ -402,10 +408,11 @@ Grafo *executarMenuGrafo(Grafo *grafo, Antena *lista, int linha, int coluna, Lis
             // Executa DFS
             limparBufferEntrada();
             antena = selecionarAntena(lista, linha, coluna, listaMensagens, idioma);
+
             if (antena)
             {
-
-                dfs(grafo, antena, listaMensagens, idioma);
+                ResultadoDFS *res = dfs(grafo, antena);
+                mostrarResultadoDFS(res, listaMensagens, idioma);
                 esperarEnter(listaMensagens, idioma);
             }
             else

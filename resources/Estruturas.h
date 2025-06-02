@@ -52,4 +52,16 @@ typedef struct ListaMensagem {
     Mensagem* mensagens;
     struct ListaMensagem* next;
 } ListaMensagem;
+
+typedef struct ResultadoDFS{
+    int x[100], y[100]; //coordenadas do ponto
+    int total;
+} ResultadoDFS;
+
+typedef struct ResultadoBFS {
+    int total;       // Número total de antenas visitadas
+    int x[100];      // Coordenadas X das antenas visitadas
+    int y[100];      // Coordenadas Y das antenas visitadas
+} ResultadoBFS;
+
 #endif // ESTRUTURAS_H

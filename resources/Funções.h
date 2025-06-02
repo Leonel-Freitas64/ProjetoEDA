@@ -33,15 +33,17 @@ Nefasto* liberarEfeitosNefastos(Nefasto* lista);
 Nefasto* removerEfeitosPorAntena(Nefasto* lista, Antena* antena);
 
 // Manipulação de grafos
-Grafo* construirGrafo(Antena *lista, ListaMensagem *listamensagens, int idioma);
+Grafo* construirGrafo(Antena *lista);
 int adicionarAresta(Grafo* grafo, Antena* a, Antena* b);
-int dfs(Grafo* grafo, Antena* origem, ListaMensagem* listaMensagens, int idioma);
-int bfs(Grafo* grafo, Antena* origem, ListaMensagem* listaMensagens, int idioma);
+ResultadoDFS* dfs(Grafo *grafo, Antena *origem);
+ResultadoBFS* bfs(Grafo* grafo, Antena* origem);
 bool mostrarCaminhos(Grafo* grafos, Antena* origem, Antena* destino);
 int detetarIntersecoes(Grafo* grafo, ListaMensagem* listamensagens, int idioma);
 int dfsCaminhosRec(Vertice *atual, Antena* destino, int *visitado, int *caminhoX, int *caminhoY, int profundidade);
 int imprimirGrafo(Grafo* grafo, Antena* lista, int linha, int coluna, ListaMensagem* listaMensagens, int idioma);
 Grafo* libertarGrafo(Grafo* grafo);
+int mostrarResultadoDFS(ResultadoDFS *res, ListaMensagem *listaMensagens, int idioma);
+int mostrarResultadoBFS(ResultadoBFS *res, ListaMensagem *listaMensagens, int idioma);
 
 // Manipulação de arquivos
 bool salvarEmBinario(Antena* lista, int largura, int altura, const char* nomeArquivo);
